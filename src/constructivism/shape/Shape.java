@@ -1,9 +1,10 @@
-package shapes.geometry;
+package constructivism.shape;
 
+import constructivism.VisitableShape;
 import processing.core.PGraphics;
 import util.vector.Vector;
 
-public abstract class Shape {
+public abstract class Shape implements VisitableShape {
     public final Vector center;
     public final double area;
     public Shape(Vector center, double area) {

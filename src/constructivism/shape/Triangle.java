@@ -1,5 +1,6 @@
-package shapes.geometry;
+package constructivism.shape;
 
+import constructivism.ShapeVisitor;
 import processing.core.PGraphics;
 import util.math.MathUtils;
 import util.vector.Vector;
@@ -25,5 +26,10 @@ public class Triangle extends Shape {
                     (float)(p3.getX() + position.getX()),
                     (float)(p3.getY() + position.getY()));
         }
+
+    @Override
+    public void accept(ShapeVisitor visitor) {
+        visitor.visit(this);
+    }
 }
 

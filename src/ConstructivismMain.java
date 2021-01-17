@@ -1,9 +1,6 @@
-import color.colors.rgb.RGBColor;
 import processing.core.PApplet;
 import processing.core.PGraphics;
-import sketch.Sketch;
-import sketch.shape.ConstructivismSketch;
-import sketch.texture.PatternStudySketch;
+import sketch.constructivism.ConstructivismSketch;
 import util.geometry.Rectangle;
 
 public class ConstructivismMain extends PApplet {

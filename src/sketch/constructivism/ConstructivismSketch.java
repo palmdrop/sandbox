@@ -1,15 +1,18 @@
-package sketch.shape;
+package sketch.constructivism;
 
 import color.colors.Color;
 import color.colors.Colors;
+import constructivism.ShapeVisitor;
+import constructivism.generation.RecursiveGeometryGenerator;
+import constructivism.shape.Ellipse;
+import constructivism.shape.Shape;
 import organic.generation.points.PointGenerator;
 import organic.generation.points.area.HeightMapPointGenerator;
 import organic.generation.points.gaussian.GaussianOffsetGenerator;
 import processing.core.PGraphics;
 import render.AbstractDrawer;
 import sampling.heightMap.HeightMap;
-import shapes.geometry.Shape;
-import shapes.geometry.Triangle;
+import constructivism.shape.Triangle;
 import sketch.Sketch;
 import util.ArrayAndListTools;
 import util.geometry.Rectangle;
@@ -19,6 +22,7 @@ import util.vector.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ConstructivismSketch extends AbstractDrawer implements Sketch {
 
@@ -34,6 +38,7 @@ public class ConstructivismSketch extends AbstractDrawer implements Sketch {
     public PGraphics draw(PGraphics canvas, double frequency, boolean superSampling) {
         canvas.beginDraw();
         canvas.background(Colors.BLACK);
+
 
         HeightMap base = GNoise.simplexNoise(0.005, 1.0, 2.0);
         PointGenerator basePointGenerator = new HeightMapPointGenerator(base, (int)bounds.width, (int)bounds.height);
@@ -52,8 +57,70 @@ public class ConstructivismSketch extends AbstractDrawer implements Sketch {
             generators.add(new GaussianOffsetGenerator(p, MathUtils.map(n, 0, 1, minDeviation, maxDeviation)));
         }
 
+        canvas.fill(Colors.WHITE);
+
+        RecursiveGeometryGenerator recursiveGeometryGenerator = new RecursiveGeometryGenerator(
+                canvas,
+                new RecursiveGeometryGenerator.Generator() {
+                    @Override
+                    public void visit(Ellipse ellipse) {
+                        List<Shape> next = new ArrayList<>(3);
+                        for(int i = 0; i < 3; i++) {
+                            Vector p = Vector.add(ellipse.center, Vector.randomWithLength(20));
+                            next.add(new Ellipse(p, ellipse.width/2, ellipse.height/2));
+                        }
+
+                        setNext(next);
+                    }
+
+                    @Override
+                    public void visit(Triangle triangle) {
+                        List<Shape> next = new ArrayList<>(3);
+                        for(int i = 0; i < 3; i++) {
+                            Vector p = Vector.add(triangle.p1, triangle.p2);
+                            next.add(new Ellipse(p, 20, 20));
+                        }
+
+                        setNext(next);
+
+                    }
+                },
+                3
+        );
+
+        List<Shape> shapes = new ArrayList<>();
+        shapes.add(new Triangle(new Vector(100, 100), new Vector(200, 200), new Vector(250, 400)));
+        shapes.add(new Ellipse(new Vector(500, 500), 30, 30));
+
+        for(Shape s : shapes) {
+            recursiveGeometryGenerator.recursiveRender(s, 0);
+        }
+
         double h = Math.random();
-        double hIncrement = 0.001;
+        double hIncrement = 0.002;
+        for(int i = 0; i < baseShapes; i++) {
+            PointGenerator generator = ArrayAndListTools.randomElement(generators);
+
+            // Get triangle corners
+            Triangle t = new Triangle(generator.get(), generator.get(), generator.get());
+
+            // Calculate triangle data
+            if(t.area < 500) { i--; continue; }
+
+            // Fetch probability
+            double n = base.get(t.center);
+
+            // Create fill and shadow colors
+            //canvas.point((float)p.getX(), (float)p.getY());
+            Color c = Colors.HSB_SPACE.getColor((h + (Math.random() < 0.5 ? 0 : 0.5)) % 1.0, 0.5, Math.random());
+
+            canvas.fill(c.toRGB());
+            recursiveGeometryGenerator.recursiveRender(t, 0);
+
+            h += hIncrement;
+        }
+
+        /*double hIncrement = 0.001;
         for(int i = 0; i < baseShapes; i++) {
             // Get point generator
             PointGenerator generator = ArrayAndListTools.randomElement(generators);
@@ -114,7 +181,7 @@ public class ConstructivismSketch extends AbstractDrawer implements Sketch {
                 //Vector p = generator.get();
                 canvas.point((float)p.getX(), (float)p.getY());
             }
-        }
+        }*/
 
         canvas.endDraw();
         return canvas;
