@@ -1,14 +1,9 @@
 package constructivism.generation;
 
 import constructivism.ShapeVisitor;
-import constructivism.shape.Ellipse;
-import constructivism.shape.Triangle;
 import processing.core.PGraphics;
-import render.AbstractDrawer;
 import constructivism.shape.Shape;
-import util.geometry.Rectangle;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class RecursiveGeometryGenerator {
