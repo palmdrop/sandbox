@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/palmdrop/sandbox">
-    <img src="output/example-texture-oo1.jpg" alt="Logo" width="80" height="80">
+    <img src="output/example-texture-oo1.jpg" alt="Logo" width="800" height="800">
   </a>
 
   <h3 align="center">Sandbox</h3>
