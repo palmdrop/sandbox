@@ -77,7 +77,9 @@ public class ConstructivismSketch extends AbstractDrawer implements Sketch {
                     public void visit(Triangle triangle) {
                         List<Shape> next = new ArrayList<>(3);
                         for(int i = 0; i < 3; i++) {
-                            Vector p = Vector.add(triangle.p1, triangle.p2);
+                            Vector p =
+                                    //Vector.add(triangle.p1, triangle.p2);
+                                    triangle.center;
                             next.add(new Ellipse(p, 20, 20));
                         }
 
