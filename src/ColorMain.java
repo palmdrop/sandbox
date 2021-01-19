@@ -2,8 +2,6 @@ import color.colors.rgb.RGBColor;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import sketch.Sketch;
-import sketch.color.CompositionSketch;
-import sketch.color.FadeSketch;
 import sketch.color.TestSketch;
 import util.geometry.Rectangle;
 

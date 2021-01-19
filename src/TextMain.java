@@ -1,25 +1,16 @@
 import color.colors.Colors;
-import org.w3c.dom.css.Rect;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import render.Drawer;
-import render.SampleDrawer;
 import render.heightMap.FadingHeightMapDrawer;
 import sampling.GraphicsHeightMap;
 import sampling.GraphicsSampler;
 import sampling.Sampler;
-import sampling.domainWarp.DomainWarp;
-import sampling.domainWarp.SimpleDomainWarp;
-import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sketch.Sketch;
 import sketch.text.TextGridSketch;
-import text.TextTools;
-import text.render.TextGridDrawer;
 import util.geometry.Rectangle;
-import util.noise.generator.GNoise;
-import util.vector.Vector;
 
 public class TextMain extends PApplet {
     // Sketch settings

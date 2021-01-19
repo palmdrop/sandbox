@@ -1,4 +1,3 @@
-import nebula.TestSettings;
 import nebula.NebulaSettings;
 import nebula.designSettings.ExperimentalSettings;
 import nebula.designSettings.HighwaySettings;

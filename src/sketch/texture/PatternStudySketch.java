@@ -1,39 +1,24 @@
 package sketch.texture;
 
 import color.colors.Colors;
-import color.fade.fades.RampFade;
-import color.space.drawer.ColorSpaceDrawer;
 import color.space.drawer.MapColorSpaceDrawer;
-import organic.structure.segment.drawer.CircleSegmentDrawer;
 import processing.core.PGraphics;
 import render.AbstractDrawer;
-import render.heightMap.ColorFadeHeightMapDrawer;
-import render.heightMap.FadingHeightMapDrawer;
-import sampling.BlurSampler;
 import sampling.GraphicsHeightMap;
 import sampling.GraphicsSampler;
 import sampling.Sampler;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
-import sampling.heightMap.modified.CombinedHeightMap;
-import sampling.heightMap.modified.FeedbackHeightMap;
-import sampling.heightMap.modified.ModdedHeightMap;
 import sampling.heightMap.modified.WarpedHeightMap;
-import sampling.heightMap.modified.pixelated.DynamicPixelatedSampler;
-import sampling.heightMap.modified.pixelated.PixelatedSampler;
 import sampling.patterns.*;
 import sketch.Sketch;
 import util.ArrayAndListTools;
 import util.file.FileUtils;
-import util.geometry.Circle;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
 import util.noise.ComplexFractalHeightMap;
-import util.noise.FractalHeightMap;
 import util.noise.generator.GNoise;
 import util.noise.type.CellularNoise;
-import util.noise.type.CraterNoise;
-import util.vector.Vector;
 
 import java.util.function.Supplier;
 
