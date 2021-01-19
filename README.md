@@ -49,7 +49,7 @@
 
 This is a long-lived super-project containing a collection of generative techniques I've been working on recently. The structure may be unconventional, and the documentation (comments and other) lacking, but please remember that this has for a long time just been hidden away in a private repository for the sake of personal exploration of generative art and procedural generation, among other things. 
 
-Most of my work is posted on reddit or on my instagram (athough a blog is in the works, link will be up soon), but this project is one of the first steps of actually sharing the code. Since this is just a sandbox, there's no interface for using the application. Instead, the project contains many "main" files for trying out different concepts, and most main files are assoicated with multiple "sketches" that run related ideas. For now, the source code has to be edited in order to change the settings. A short usage guide can be found under <li><a href="#usage">Usage</a></li>. 
+Most of my work is posted on reddit or on my instagram (athough a blog is in the works, link will be up soon), but this project is one of the first steps of actually sharing the code. Since this is just a sandbox, there's no interface for using the application. Instead, the project contains many "main" files for trying out different concepts, and most main files are assoicated with multiple "sketches" that run related ideas. For now, the source code has to be edited in order to change the settings. A short usage guide can be found under <a href="#usage">Usage</a>.
 
 Here's why:
 * Your time should be focused on creating something amazing. A project that solves a problem and helps others
