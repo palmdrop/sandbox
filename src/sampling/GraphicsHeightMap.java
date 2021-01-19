@@ -1,10 +1,8 @@
 package sampling;
 
-import processing.core.PGraphics;
 import processing.core.PImage;
 import sampling.heightMap.HeightMap;
 import util.geometry.Rectangle;
-import util.math.MathUtils;
 
 import java.util.function.Function;
 
