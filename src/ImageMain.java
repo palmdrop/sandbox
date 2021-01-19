@@ -41,11 +41,11 @@ public class ImageMain extends PApplet {
 
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
-        //int sketchX = (int) ((screen.getWidth() - windowWidth) / 2);
-        //int sketchY = (int) ((screen.getHeight() - windowHeight) / 2);
+        int sketchX = (int) ((screen.getWidth() - windowWidth) / 2);
+        int sketchY = (int) ((screen.getHeight() - windowHeight) / 2);
 
         surface.setSize(windowWidth, windowHeight);
-        //surface.setLocation(sketchX, sketchY);
+        surface.setLocation(sketchX, sketchY);
 
         // Create canvas
         canvas = createGraphics((int)bounds.getWidth(), (int)bounds.getHeight());

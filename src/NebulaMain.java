@@ -1,4 +1,5 @@
 import nebula.NebulaSettings;
+import nebula.designSettings.HighwaySettings;
 import nebula.designSettings.toExplore.ShapeSettings;
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -30,9 +31,9 @@ public class NebulaMain extends PApplet {
     public void setup() {
         canvas = createGraphics(sketchWidth, sketchHeight);
         NebulaSettings settings =
-                //new HighwaySettings(this);
+                new HighwaySettings(this);
                 //new TestSettings(this);
-                new ShapeSettings(this, sketchWidth, sketchHeight);
+                //new ShapeSettings(this, sketchWidth, sketchHeight);
                 //new GemSettings(this);
                 //new CombinedSettings(-sketchWidth/2, -sketchHeight/2, sketchWidth, sketchHeight);
                 //new ExperimentalSettings(this);

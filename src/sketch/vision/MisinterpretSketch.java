@@ -28,15 +28,7 @@ public class MisinterpretSketch implements Sketch {
         canvas.background(0, 0, 0);
 
         File file = new File(
-                //"/home/xan/Pictures/collected/2020-06-13_09-31.png"
-                //"sourceData/skuggor_och_spegling.pdf"
-                //"sourceData/myller.pdf"
-                //"sourceData/this-is-water.txt"
-                "sourceData/skuggor_och_spegling.txt"
-                //"sourceData/a-tale-of-two-cities.txt"
-                //"src/vision/ReaderVision.java"
-                //"src/VisionMain.java"
-                //"sourceImages/face1.jpg"
+                "sourceData/example_a-tale-of-two-cities.txt"
         );
 
 
@@ -51,20 +43,6 @@ public class MisinterpretSketch implements Sketch {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*PImage img = p.loadImage(
-                ArrayAndListTools.randomElement(FileUtils.listFiles(
-                        //"sourceImages/growth/",
-                        "sourceImages/",
-                        //"photos/test/postable/",
-                        new String[]{".png", ".jpg", ".jpeg"})).getPath()
-        );
-
-        for(int x = 0; x < img.width; x++) for(int y = 0; y < img.height; y++) {
-
-        }
-
-        canvas.image(img, 0, 0, canvas.width, canvas.height);*/
 
         canvas.endDraw();
         return canvas;

@@ -44,8 +44,7 @@ public class PatternSketch implements Sketch {
         return new GraphicsSampler(
                 p.loadImage(
                         ArrayAndListTools.randomElement(FileUtils.listFiles(
-                                "sourceImages/creatures/",
-                                //"sourceImages/",
+                                "sourceImages/",
                         new String[]{".png", ".jpg", ".jpeg"})).getPath()),
                         GraphicsSampler.WrapMode.MIRROR_WRAP
                 );
@@ -100,7 +99,7 @@ public class PatternSketch implements Sketch {
     private void loadImages(boolean reloadData) {
         File[] paths =
                 FileUtils.listFiles(
-                        "/home/xan/usr/pictures/dada",
+                        "sourceImages/",
                 new String[]{
                         ".png", ".jpg", ".jpeg"
                 });
@@ -113,7 +112,7 @@ public class PatternSketch implements Sketch {
             if(image == null) continue;
             images.add(image);
 
-            ImageData data = loadImageData(file.getPath(), image, 0.5, 5, 20, reloadData);
+            ImageData data = loadImageData(file.getPath(), image, 0.2, 5, 10, reloadData);
             if(imageData != null) imageData.add(data);
 
             System.out.println(100 * ((double)i / paths.length) + "%");
@@ -228,8 +227,8 @@ public class PatternSketch implements Sketch {
                     );
 
         Sampler<Integer> toRender
-                //= imageSampler;
-                = new SourceDomainWarp<>(imageSampler, controller1, (x, y, v) -> Colors.brightness(v), (x, y, v) -> Colors.brightness(v), 0, MathUtils.random(40, 100));
+                = imageSampler;
+                //= new SourceDomainWarp<>(imageSampler, controller1, (x, y, v) -> Colors.brightness(v), (x, y, v) -> Colors.brightness(v), 0, MathUtils.random(40, 100));
 
         SampleDrawer drawer = new SampleDrawer(toRender, bounds.width, bounds.height, new Vector(0, 0));
         drawer.draw(canvas);

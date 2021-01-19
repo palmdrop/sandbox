@@ -17,9 +17,7 @@ public class TextureMain extends PApplet {
     private int sketchHeight = (int) (screenHeight * renderQuality);
 
     private
-        //CMYKSketch sketch;
-    PatternStudySketch sketch;
-    //Sketch sketch;
+        PatternStudySketch sketch;
     private PGraphics canvas;
 
     @Override
@@ -34,7 +32,7 @@ public class TextureMain extends PApplet {
         Rectangle bounds = new Rectangle(canvas.width, canvas.height);
 
         sketch =
-            //new CMYKSketch(bounds);
+                //new CMYKSketch(bounds);
                 //new ContourSketch(bounds);
                 //new ColorGrainAndGlitchSketch(bounds);
                 //new RecursiveTextureSketch(bounds);
