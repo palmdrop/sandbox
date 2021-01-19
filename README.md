@@ -7,14 +7,8 @@
   <p align="center">
     A personal generative playground. Finally on github after multiple requests.
 
-  <a href="https://github.com/palmdrop/sandbox">
-    <img src="output/example-texture-oo1.jpg" alt="Logo" width="800" height="800">
-  </a>
-
   </p>
 </p>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -41,7 +35,7 @@
   </ol>
 </details>
 
-
+![Object 1](https://github.com/palmdrop/sandbox/output/example-texture-oo1.jpg)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
