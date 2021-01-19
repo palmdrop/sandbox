@@ -2,9 +2,6 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import sketch.Sketch;
-import sketch.image.CombinedSketch;
-import sketch.image.GlitchSketch;
-import sketch.image.GridSketch;
 import sketch.image.PatternSketch;
 import util.geometry.Rectangle;
 

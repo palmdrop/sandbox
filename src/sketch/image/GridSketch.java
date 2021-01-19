@@ -1,17 +1,12 @@
 package sketch.image;
 
 import color.colors.Colors;
-import color.palette.drawer.ComparativePaletteDrawer;
-import color.palette.drawer.PaletteDrawer;
-import color.palette.palettes.balanced.BalancedPalette;
-import color.palette.palettes.balanced.BasicPalette;
 import color.space.ColorSpace;
 import image.GraphicsCombiner;
 import image.GridMultiGraphics;
 import image.data.ImageData;
 import image.data.SortedImageData;
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import render.Drawer;
@@ -19,20 +14,15 @@ import render.SampleDrawer;
 import sampling.GraphicsSampler;
 import sampling.Sampler;
 import sampling.domainWarp.SimpleDomainWarp;
-import sampling.domainWarp.SourceDomainWarp;
 import sketch.Sketch;
-import util.ArrayAndListTools;
 import util.file.FileUtils;
 import util.geometry.Rectangle;
-import util.geometry.divider.SimpleDivider;
 import util.math.MathUtils;
 import util.vector.Vector;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class GridSketch implements Sketch {

@@ -1,10 +1,10 @@
 package render.heightMap;
 
+import processing.core.PApplet;
+import processing.core.PGraphics;
 import render.Drawer;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
-import processing.core.PApplet;
-import processing.core.PGraphics;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
 

@@ -1,7 +1,6 @@
 package organic.structure.segment;
 
 import organic.Component;
-import organic.ComponentHolder;
 import organic.generation.points.PointGenerator;
 import organic.generation.points.combined.WeightedPointGenerator;
 import organic.generation.points.limited.UniformLinePointGenerator;

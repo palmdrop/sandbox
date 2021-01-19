@@ -5,9 +5,7 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 import render.AbstractDrawer;
 import sketch.Sketch;
-import sketch.texture.PatternStudySketch;
 import util.geometry.Rectangle;
-import util.math.MathUtils;
 
 public class Gen1 extends AbstractDrawer implements Sketch {
     private final PApplet p;

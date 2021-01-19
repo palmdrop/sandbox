@@ -3,7 +3,6 @@ package sketch.vision;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import sampling.GraphicsSampler;
 import sketch.Sketch;
 import util.ArrayAndListTools;
 import util.file.FileUtils;
@@ -11,7 +10,6 @@ import util.geometry.Rectangle;
 import vision.ReaderVision;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -29,7 +27,7 @@ public class MisinterpretSketch implements Sketch {
         canvas.beginDraw();
         canvas.background(0, 0, 0);
 
-        /*File file = new File(
+        File file = new File(
                 //"/home/xan/Pictures/collected/2020-06-13_09-31.png"
                 //"sourceData/skuggor_och_spegling.pdf"
                 //"sourceData/myller.pdf"
@@ -52,9 +50,9 @@ public class MisinterpretSketch implements Sketch {
             fileReader.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
 
-        PImage img = p.loadImage(
+        /*PImage img = p.loadImage(
                 ArrayAndListTools.randomElement(FileUtils.listFiles(
                         //"sourceImages/growth/",
                         "sourceImages/",
@@ -66,8 +64,7 @@ public class MisinterpretSketch implements Sketch {
 
         }
 
-        canvas.image(img, 0, 0, canvas.width, canvas.height);
-
+        canvas.image(img, 0, 0, canvas.width, canvas.height);*/
 
         canvas.endDraw();
         return canvas;

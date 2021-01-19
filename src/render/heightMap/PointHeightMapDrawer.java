@@ -2,9 +2,9 @@ package render.heightMap;
 
 import processing.core.PGraphics;
 import render.Drawer;
+import sampling.heightMap.HeightMap;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import sampling.heightMap.HeightMap;
 import util.vector.Vector;
 
 public class PointHeightMapDrawer implements Drawer {

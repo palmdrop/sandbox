@@ -1,9 +1,9 @@
 package render.heightMap;
 
+import processing.core.PGraphics;
 import render.AbstractPixelDrawer;
 import render.Drawer;
 import sampling.Sampler;
-import processing.core.PGraphics;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
 import util.vector.Vector;

@@ -1,8 +1,8 @@
 package sampling.heightMap;
 
 import sampling.Sampler;
-import sampling.heightMap.modified.WarpedHeightMap;
 import sampling.heightMap.modified.ModdedHeightMap;
+import sampling.heightMap.modified.WarpedHeightMap;
 import util.vector.Vector;
 
 public interface HeightMap extends Sampler<Double> {

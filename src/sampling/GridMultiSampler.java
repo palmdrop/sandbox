@@ -1,7 +1,5 @@
 package sampling;
 
-import sampling.Sampler;
-import util.geometry.Rectangle;
 import util.vector.Vector;
 
 import java.util.List;

@@ -32,9 +32,9 @@ public class OrganicMain extends PApplet {
     public void setup() {
         Rectangle bounds = new Rectangle(sketchWidth, sketchHeight);
         sketch =
-                //new BushSketch(bounds);
+                new BushSketch(bounds);
                 //new CropSketch(bounds);
-                new LeafSketch(bounds);
+                //new LeafSketch(bounds);
 
         canvas = createGraphics(sketchWidth, sketchHeight);
 
@@ -62,22 +62,6 @@ public class OrganicMain extends PApplet {
         switch(key) {
             case 'r': reset(); break;
             case 's': {
-                /*PGraphics render = createGraphics((int)(screenWidth * saveQuality), (int)(screenHeight * saveQuality));
-
-                Rectangle oldBounds = sketch.getBounds();
-                sketch.setBounds(new Rectangle(render.width, render.height));
-                //sketch.createApplier(blur * saveQuality);
-
-                render.beginDraw();
-                sketch.draw(render);
-                render.endDraw();
-
-                String name ="photos/texture/" + sketch.getClass().getName() + "-" + System.currentTimeMillis() + ".png";
-                render.save(name);
-
-                System.out.println("Saved \"" + name + "\"");
-
-                sketch.setBounds(oldBounds);*/
                 String name ="output/organic/" + sketch.getClass().getName() + "-" + System.currentTimeMillis() + ".png";
                 canvas.save(name);
                 System.out.println("Saved \"" + name + "\"");

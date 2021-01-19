@@ -2,8 +2,6 @@ import color.colors.rgb.RGBColor;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import sketch.texture.PatternStudySketch;
-import sketch.texture.RecursiveTextureSketch;
-import sketch.texture.TestTextureSketch;
 import util.geometry.Rectangle;
 
 public class TextureMain extends PApplet {
@@ -43,14 +41,10 @@ public class TextureMain extends PApplet {
                 //new TestTextureSketch(bounds);
                 new PatternStudySketch(bounds);
 
-
         //sketch.createApplier(blur);
 
-
         canvas.beginDraw();
-
         canvas.background(255);
-
         sketch.draw(canvas);
         canvas.endDraw();
     }
@@ -58,7 +52,6 @@ public class TextureMain extends PApplet {
     @Override
     public void draw() {
         background(0);
-        //sketch.draw(canvas);
         image(canvas, 0, 0, screenWidth, screenHeight);
     }
 

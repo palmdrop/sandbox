@@ -9,7 +9,6 @@ import sampling.countour.drawer.SimpleContourDrawer;
 import sketch.Sketch;
 import texture.drawer.apply.CMYKTextureApplier;
 import util.geometry.Rectangle;
-import util.math.MathUtils;
 
 public class ContourSketch extends AbstractDrawer implements Sketch {
     public ContourSketch(Rectangle bounds) {

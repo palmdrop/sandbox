@@ -1,7 +1,6 @@
 package sampling.patterns;
 
 import sampling.Sampler;
-import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sampling.heightMap.modified.WarpedHeightMap;
 import sampling.heightMap.modified.pixelated.DynamicPixelatedSampler;

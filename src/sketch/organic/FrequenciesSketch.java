@@ -4,13 +4,10 @@ import color.colors.Color;
 import color.colors.Colors;
 import color.fade.ColorFade;
 import color.fade.fades.MultiColorFade;
-import color.fade.fades.RampFade;
-import color.fade.fades.SimpleColorFade;
 import organic.Component;
 import organic.structure.segment.Segment;
 import organic.structure.segment.Segments;
 import organic.structure.segment.SimpleSegment;
-import organic.structure.segment.drawer.SimpleSegmentDrawer;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -19,19 +16,12 @@ import render.SampleDrawer;
 import sampling.GraphicsSampler;
 import sampling.countour.Contours;
 import sampling.domainWarp.SourceDomainWarp;
-import sampling.heightMap.HeightMap;
-import sampling.heightMap.HeightMaps;
 import sketch.Sketch;
-import texture.drawer.apply.CMYKTextureApplier;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
 import util.noise.generator.GNoise;
 import util.vector.ReadVector;
 import util.vector.Vector;
-
-import java.awt.*;
-import java.awt.print.Paper;
-import java.util.Calendar;
 
 public class FrequenciesSketch implements Sketch {
     private Rectangle bounds;

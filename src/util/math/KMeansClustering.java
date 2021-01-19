@@ -1,6 +1,5 @@
 package util.math;
 
-import util.geometry.Rectangle;
 import util.vector.Vector;
 
 import java.util.ArrayList;

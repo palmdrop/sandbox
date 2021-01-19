@@ -9,7 +9,10 @@ import util.space.tree.QuadTree;
 import util.vector.ReadVector;
 import util.vector.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SpaceFillTree<T extends Component> {
     private static final int QUAD_TREE_CAPACITY = 4;

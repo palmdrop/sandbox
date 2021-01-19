@@ -1,10 +1,8 @@
 package sampling.countour.drawer;
 
-import processing.core.PGraphics;
 import render.AbstractDrawer;
 import sampling.Sampler1D;
 import util.geometry.Rectangle;
-import util.space.region.Range;
 
 public abstract class AbstractContourDrawer extends AbstractDrawer implements ContourDrawer {
     protected Sampler1D<Double> contour;

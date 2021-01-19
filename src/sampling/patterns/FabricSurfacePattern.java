@@ -4,11 +4,8 @@ import sampling.Sampler;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sampling.heightMap.modified.WarpedHeightMap;
-import util.geometry.Circle;
-import util.math.MathUtils;
 import util.noise.FractalHeightMap;
 import util.noise.generator.GNoise;
-import util.vector.Vector;
 
 import java.util.function.Supplier;
 

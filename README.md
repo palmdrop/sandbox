@@ -80,8 +80,10 @@ I suggest setting up the project in a popular IDE for easy use, since there's no
    ```
 3. Setup a java project (for example, using a popular IDE like Intellij IDEA or Eclipse)
     * *Here follows an example setup using Intellij IDEA:* 
-    a) Create a new project, choose the sandbox repository you've just cloned.
-    b) 
+    a) Open the `sandbox` repository you've just cloned as a project.
+    b) Under `Project structure -> Project` pick java 11 as the Project SDK (Also make sure the language level is at least 11).
+    c) Under `Project structure -> SDKs` choose `11` (for Java 11) and then click `classpath`. Press `+` and navigate to where you installed processing. Pick `processing-3.5.x/core/library/core.jar`. 
+4. Run desired main class (all can be found under directly under `src`).
 
 <!-- USAGE EXAMPLES -->
 ## Usage

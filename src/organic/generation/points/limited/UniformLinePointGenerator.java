@@ -1,7 +1,6 @@
 package organic.generation.points.limited;
 
 import organic.generation.AbstractSeededRandom;
-import organic.generation.SeededRandom;
 import organic.generation.points.PointGenerator;
 import util.vector.ReadVector;
 import util.vector.Vector;

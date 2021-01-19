@@ -1,6 +1,5 @@
 package texture.texture;
 
-import sampling.Sampler;
 import sampling.heightMap.HeightMap;
 import texture.Texture;
 import util.vector.Vector;

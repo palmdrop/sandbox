@@ -4,7 +4,6 @@ import organic.Component;
 import organic.structure.branch.Branch;
 import organic.structure.branch.Branches;
 import organic.structure.branch.SimpleBranch;
-import util.math.MathUtils;
 
 public class LeafSkeletonGenerator {
     public Branch<Component> generate(double branchLength, int baseSegments) {

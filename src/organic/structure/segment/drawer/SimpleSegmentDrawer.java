@@ -2,7 +2,6 @@ package organic.structure.segment.drawer;
 
 import organic.structure.segment.Segment;
 import processing.core.PGraphics;
-import processing.core.PShape;
 import render.AbstractDrawer;
 import util.geometry.Rectangle;
 import util.vector.ReadVector;

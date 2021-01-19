@@ -1,8 +1,6 @@
 package render;
 
-import color.colors.Color;
 import color.colors.Colors;
-import color.space.ColorSpace;
 import processing.core.PGraphics;
 import util.geometry.Rectangle;
 import util.math.MathUtils;

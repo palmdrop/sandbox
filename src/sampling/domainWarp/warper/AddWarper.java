@@ -1,8 +1,8 @@
 package sampling.domainWarp.warper;
 
+import processing.core.PApplet;
 import sampling.Sampler;
 import sampling.heightMap.HeightMap;
-import processing.core.PApplet;
 import util.math.MathUtils;
 import util.vector.Vector;
 

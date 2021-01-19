@@ -1,10 +1,8 @@
 package texture.drawer.apply;
 
-import color.colors.Color;
 import color.space.ColorSpace;
 import texture.Texture;
 import util.geometry.Rectangle;
-import util.math.MathUtils;
 import util.vector.Vector;
 
 public class ComponentTextureApplier extends AbstractTextureApplier {

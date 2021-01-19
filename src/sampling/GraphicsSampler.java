@@ -1,7 +1,6 @@
 package sampling;
 
 import color.colors.Colors;
-import sampling.Sampler;
 import processing.core.PImage;
 import util.math.MathUtils;
 import util.vector.Vector;

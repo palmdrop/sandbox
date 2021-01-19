@@ -1,12 +1,10 @@
 package text.render;
 
 import color.colors.Color;
-import color.colors.Colors;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PGraphics;
 import render.AbstractDrawer;
-import render.Drawer;
 import text.TextTools;
 import util.geometry.Rectangle;
 import util.math.MathUtils;

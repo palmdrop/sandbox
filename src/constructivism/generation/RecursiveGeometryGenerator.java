@@ -1,8 +1,8 @@
 package constructivism.generation;
 
 import constructivism.ShapeVisitor;
-import processing.core.PGraphics;
 import constructivism.shape.Shape;
+import processing.core.PGraphics;
 
 import java.util.List;
 

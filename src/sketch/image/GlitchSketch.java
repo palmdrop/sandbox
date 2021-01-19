@@ -11,7 +11,6 @@ import sampling.GraphicsSampler;
 import sampling.Sampler;
 import sampling.domainWarp.SimpleDomainWarp;
 import sketch.Sketch;
-import util.ArrayAndListTools;
 import util.geometry.Rectangle;
 import util.vector.Vector;
 

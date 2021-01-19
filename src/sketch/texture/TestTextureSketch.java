@@ -4,13 +4,10 @@ import processing.core.PGraphics;
 import render.AbstractDrawer;
 import render.heightMap.FadingHeightMapDrawer;
 import sampling.Sampler;
-import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sampling.heightMap.modified.CombinedHeightMap;
-import sampling.heightMap.modified.ModdedHeightMap;
-import sampling.heightMap.modified.pixelated.DynamicPixelatedSampler;
-import sampling.heightMap.modified.pixelated.PixelatedSampler;
 import sampling.heightMap.modified.WarpedHeightMap;
+import sampling.heightMap.modified.pixelated.DynamicPixelatedSampler;
 import sketch.Sketch;
 import util.geometry.Circle;
 import util.geometry.Rectangle;
@@ -19,7 +16,6 @@ import util.noise.ComplexFractalHeightMap;
 import util.noise.FractalHeightMap;
 import util.noise.generator.GNoise;
 import util.noise.type.CellularNoise;
-import util.noise.type.CraterNoise;
 import util.vector.Vector;
 
 public class TestTextureSketch extends AbstractDrawer implements Sketch {

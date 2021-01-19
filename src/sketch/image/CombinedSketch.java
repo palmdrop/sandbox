@@ -9,7 +9,6 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import render.Drawer;
 import render.SampleDrawer;
-import sampling.CombinedSampler;
 import sampling.GraphicsSampler;
 import sampling.Sampler;
 import sampling.domainWarp.DomainWarp;
@@ -20,8 +19,6 @@ import sketch.Sketch;
 import util.ArrayAndListTools;
 import util.geometry.Rectangle;
 import util.vector.Vector;
-
-import java.util.function.Function;
 
 public class CombinedSketch implements Sketch {
     private Rectangle bounds;

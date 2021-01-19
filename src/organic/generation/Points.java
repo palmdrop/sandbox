@@ -2,7 +2,6 @@ package organic.generation;
 
 import util.geometry.Rectangle;
 import util.vector.ReadVector;
-import util.vector.Vector;
 
 import java.util.List;
 

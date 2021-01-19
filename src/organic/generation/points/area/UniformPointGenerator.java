@@ -4,10 +4,7 @@ import organic.generation.AbstractSeededRandom;
 import organic.generation.points.PointGenerator;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import util.vector.ReadVector;
 import util.vector.Vector;
-
-import java.util.Random;
 
 public class UniformPointGenerator extends AbstractSeededRandom implements PointGenerator {
     private final Rectangle bounds;

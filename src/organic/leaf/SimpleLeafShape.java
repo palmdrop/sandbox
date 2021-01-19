@@ -2,8 +2,6 @@ package organic.leaf;
 
 import sampling.countour.Contour;
 import sampling.countour.Contours;
-import util.math.MathUtils;
-import util.vector.ReadVector;
 import util.vector.Vector;
 
 public class SimpleLeafShape implements LeafShape {

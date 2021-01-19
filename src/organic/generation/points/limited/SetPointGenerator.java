@@ -3,7 +3,6 @@ package organic.generation.points.limited;
 import organic.generation.AbstractSeededRandom;
 import organic.generation.points.PointGenerator;
 import util.math.MathUtils;
-import util.vector.ReadVector;
 import util.vector.Vector;
 
 import java.util.ArrayList;

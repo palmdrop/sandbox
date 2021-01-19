@@ -2,6 +2,7 @@ package sampling.heightMap.modified.pixelated;
 
 import sampling.Sampler;
 import util.vector.Vector;
+
 import java.util.Random;
 
 public class DynamicPixelatedSampler<T> implements Sampler<T> {

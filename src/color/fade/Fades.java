@@ -1,6 +1,5 @@
 package color.fade;
 
-import color.colors.Color;
 import color.colors.Colors;
 import color.fade.fades.MultiColorFade;
 import color.palette.Palettes;

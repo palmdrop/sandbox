@@ -1,13 +1,13 @@
 package nebula.designSettings;
 
+import nebula.AbstractNebulaSettings;
+import processing.core.PApplet;
+import render.heightMap.TriadHeightMapDrawer;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sampling.heightMap.modified.FeedbackHeightMap;
 import sampling.heightMap.modified.ModdedHeightMap;
 import sampling.heightMap.modified.WarpedHeightMap;
-import nebula.AbstractNebulaSettings;
-import processing.core.PApplet;
-import render.heightMap.TriadHeightMapDrawer;
 import util.noise.generator.GNoise;
 import util.vector.Vector;
 

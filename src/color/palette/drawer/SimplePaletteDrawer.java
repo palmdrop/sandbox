@@ -2,10 +2,9 @@ package color.palette.drawer;
 
 import color.colors.Color;
 import color.palette.Palette;
-import util.geometry.Rectangle;
-import util.geometry.divider.*;
-
 import processing.core.PGraphics;
+import util.geometry.Rectangle;
+import util.geometry.divider.SimpleDivider;
 
 import java.util.List;
 

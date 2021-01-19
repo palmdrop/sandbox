@@ -1,8 +1,8 @@
 package sampling.heightMap.modified;
 
 import sampling.Sampler;
-import util.math.MathUtils;
 import sampling.heightMap.HeightMap;
+import util.math.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;

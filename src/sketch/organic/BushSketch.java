@@ -2,7 +2,8 @@ package sketch.organic;
 
 import color.colors.Color;
 import color.colors.Colors;
-import color.fade.*;
+import color.fade.ColorFade;
+import color.fade.Fades;
 import color.fade.drawer.ColorFadeDrawer;
 import color.fade.drawer.MapColorFadeDrawer;
 import color.fade.fades.MultiColorFade;

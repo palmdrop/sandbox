@@ -1,6 +1,5 @@
 package util.vector;
 
-import processing.core.PApplet;
 import util.math.MathUtils;
 
 import java.security.InvalidParameterException;

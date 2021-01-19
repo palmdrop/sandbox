@@ -1,13 +1,11 @@
 import color.colors.rgb.RGBColor;
-import sketch.organic.CthulhuSketch;
-import sketch.organic.SegmentDrawSketch;
 import processing.core.PApplet;
 import processing.core.PGraphics;
-import processing.core.PImage;
 import sketch.Sketch;
+import sketch.organic.CthulhuSketch;
 import util.geometry.Rectangle;
 
-public class TestOrganicMain extends PApplet {
+public class ChaoticOrganicMain extends PApplet {
     private static int screenSize = 1000;
 
     private static int screenWidth = screenSize;
@@ -45,22 +43,17 @@ public class TestOrganicMain extends PApplet {
 
     @Override
     public void draw() {
-        //background(0);
 
         for(int i = 0; i < 10; i++) {
             sketch.draw(canvas, renderQuality);
         }
 
-        //PImage resized = canvas.copy();
-        //resized.resize(screenWidth, screenHeight);
-
-        //image(resized, 0, 0);
         image(canvas, 0, 0, screenWidth, screenHeight);
     }
 
 
     public static void main(String[] args) {
-        PApplet.main("TestOrganicMain");
+        PApplet.main("ChaoticOrganicMain");
     }
 
     private void reset() {

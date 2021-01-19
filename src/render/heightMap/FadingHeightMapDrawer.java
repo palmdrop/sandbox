@@ -1,14 +1,12 @@
 package render.heightMap;
 
 import color.colors.Colors;
-import color.colors.rgb.RGB;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import render.Drawer;
 import sampling.Sampler;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import sampling.heightMap.HeightMap;
 
 public class FadingHeightMapDrawer implements Drawer {
     private final int minColor, maxColor;

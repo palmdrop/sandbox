@@ -1,7 +1,4 @@
 import nebula.NebulaSettings;
-import nebula.designSettings.ExperimentalSettings;
-import nebula.designSettings.HighwaySettings;
-import nebula.designSettings.toExplore.GemSettings;
 import nebula.designSettings.toExplore.ShapeSettings;
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -11,9 +8,7 @@ import render.Drawer;
 public class NebulaMain extends PApplet {
     // Sketch settings
     private int screenWidth = 1000;
-            //2660 / 2;
     private int screenHeight = screenWidth;
-            //(int) (screenWidth / Math.sqrt(2));
 
     private float viewQuality = 1;
     private float renderQuality = 3;

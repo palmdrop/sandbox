@@ -1,6 +1,5 @@
 package image.data.histogram;
 
-import color.space.space.RGBColorSpace;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import util.geometry.Rectangle;

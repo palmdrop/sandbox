@@ -1,16 +1,9 @@
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PGraphicsOpenGL;
 import sketch.Sketch;
-import sketch.image.CombinedSketch;
-import sketch.image.GlitchSketch;
-import sketch.image.GridSketch;
-import sketch.image.PatternSketch;
 import sketch.vision.MisinterpretSketch;
 import util.geometry.Rectangle;
-
-import java.awt.*;
 
 public class VisionMain extends PApplet {
     // Sketch settings
@@ -35,8 +28,6 @@ public class VisionMain extends PApplet {
         // Set screen
         Rectangle bounds = sketch.getBounds();
 
-        //desiredSize = (int) Math.min(desiredSize, sketch.getBounds().width);
-
         // Calculate dimensions
         double imageDivider = bounds.getWidth() / desiredSize;
         windowWidth = desiredSize;
@@ -55,7 +46,6 @@ public class VisionMain extends PApplet {
     public void draw() {
         if(toDraw == null) {
             toDraw = canvas.copy();
-            //((PGraphicsOpenGL)toDraw).textureSampling(3);
             toDraw.resize(windowWidth, windowHeight);
         }
 

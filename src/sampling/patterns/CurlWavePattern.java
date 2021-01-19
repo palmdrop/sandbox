@@ -1,7 +1,5 @@
 package sampling.patterns;
 
-import sampling.Sampler;
-import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import util.noise.ComplexFractalHeightMap;
 import util.noise.FractalHeightMap;

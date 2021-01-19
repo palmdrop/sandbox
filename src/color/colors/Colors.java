@@ -3,7 +3,7 @@ package color.colors;
 import color.colors.hsb.HSB;
 import color.colors.hsb.HSBColor;
 import color.colors.rgb.RGBColor;
-import color.space.*;
+import color.space.ColorSpace;
 import color.space.space.*;
 import util.math.MathUtils;
 

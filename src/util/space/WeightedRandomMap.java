@@ -1,8 +1,8 @@
 package util.space;
 
 import processing.core.PGraphics;
-import util.geometry.Rectangle;
 import sampling.heightMap.HeightMap;
+import util.geometry.Rectangle;
 import util.math.WeightedRandomList;
 import util.vector.Vector;
 

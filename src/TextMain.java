@@ -35,35 +35,12 @@ public class TextMain extends PApplet {
         bounds = new Rectangle(sketchWidth, sketchHeight);
 
         sketch =
-                //new PatternSketch(this);
                 new TextGridSketch(this, bounds, sketchMultiplier);
 
         // Create canvas
         canvas = createGraphics((int)bounds.getWidth(), (int)bounds.getHeight());
 
-        GraphicsSampler gSampler =
-                new GraphicsSampler(this.loadImage(
-                        "sourceImages/collected/liminal1.jpg"
-                            //"sourceImages/face1.jpg"
-                ), GraphicsSampler.WrapMode.MIRROR_WRAP);
-
-        GraphicsHeightMap ghm = new GraphicsHeightMap(this.loadImage(
-                "sourceImages/collected/liminal1.jpg"
-                    //"sourceImages/face1.jpg"
-        ), GraphicsSampler.WrapMode.MIRROR_WRAP, Colors::brightness);
-
-        Sampler<Double> sampler =
-                HeightMaps.stretch(ghm, (double)ghm.getImage().width / canvas.width, (double)ghm.getImage().width / canvas.width);
-
-
-        Drawer drawer =
-                new FadingHeightMapDrawer(sampler, 0, 0);
-                //new SampleDrawer(sampler, new Vector());
-        //TODO either scale fading heightmap drawer or scale the graphics heightmap sampler to match range of FadingHeightMapDrawer!!!
-
         canvas.beginDraw();
-        //drawer.draw(canvas);
-
         sketch.draw(canvas);
         canvas.endDraw();
     }
@@ -71,25 +48,8 @@ public class TextMain extends PApplet {
 
 
     public void draw() {
-        //sketch.draw(canvas);
-
-        /*Sampler<Integer> sampler = new GraphicsSampler(canvas);
-
-        DomainWarp<Integer> warped = new SimpleDomainWarp<>(sampler);
-        warped.domainWarp(
-                HeightMaps.constant(1.0),
-                            p -> Colors.brightness(sampler.get(p.getX(),p.getY())),
-                0, 10
-                );*/
-
-        //SampleDrawer drawer = new SampleDrawer(warped, canvas.width, canvas.height, new Vector());
-
-        //drawer.draw(this.g);
-        //image(g, 0, 0);
         PImage toRender = canvas.get();
         toRender.resize(windowWidth, windowHeight);
-
-        //image(canvas, 0, 0, windowWidth, windowHeight);
         image(toRender, 0, 0);
     }
 
@@ -99,16 +59,13 @@ public class TextMain extends PApplet {
 
     private void reset() {
         setup();
-        //sketch.draw(canvas);
     }
 
 
     public void mousePressed() {
-        //reset();
         String name = "output/text/" + System.currentTimeMillis() + ".png";
         canvas.save(name);
         System.out.println("saved " + name);
-
     }
 
     public void keyPressed() {
@@ -123,10 +80,4 @@ public class TextMain extends PApplet {
             } break;
         }
     }
-
-
-
-
-
-
 }

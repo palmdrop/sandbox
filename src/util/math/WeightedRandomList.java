@@ -1,10 +1,5 @@
 package util.math;
 
-import processing.core.PGraphics;
-import sampling.heightMap.HeightMap;
-import util.geometry.Rectangle;
-import util.vector.Vector;
-
 import java.util.ArrayList;
 import java.util.List;
 

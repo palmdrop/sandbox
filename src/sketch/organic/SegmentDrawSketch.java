@@ -4,7 +4,6 @@ import organic.Component;
 import organic.structure.segment.Segment;
 import organic.structure.segment.SimpleSegment;
 import organic.structure.segment.drawer.CircleSegmentDrawer;
-import organic.structure.segment.drawer.SimpleSegmentDrawer;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import render.Drawer;

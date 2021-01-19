@@ -1,6 +1,5 @@
 package organic.generation.points;
 
-import util.vector.ReadVector;
 import util.vector.Vector;
 
 import java.util.ArrayList;

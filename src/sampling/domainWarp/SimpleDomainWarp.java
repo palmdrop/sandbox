@@ -4,7 +4,6 @@ import sampling.Sampler;
 import sampling.domainWarp.warper.AddWarper;
 import sampling.domainWarp.warper.Warp;
 import sampling.domainWarp.warper.Warper;
-import sampling.heightMap.HeightMap;
 import util.vector.Vector;
 
 public class SimpleDomainWarp<V> implements DomainWarp<V> {

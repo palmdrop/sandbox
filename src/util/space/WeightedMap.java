@@ -1,9 +1,8 @@
 package util.space;
 
 import processing.core.PGraphics;
-import util.geometry.Rectangle;
 import sampling.heightMap.HeightMap;
-import util.math.WeightedRandomList;
+import util.geometry.Rectangle;
 import util.vector.Vector;
 
 public class WeightedMap {

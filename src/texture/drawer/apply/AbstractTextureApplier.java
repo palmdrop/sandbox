@@ -1,11 +1,8 @@
 package texture.drawer.apply;
 
-import color.colors.Colors;
-import color.space.ColorSpace;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import render.AbstractDrawer;
-import render.AbstractPixelDrawer;
 import sampling.GraphicsSampler;
 import sampling.Sampler;
 import texture.Texture;

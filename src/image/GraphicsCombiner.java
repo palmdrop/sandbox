@@ -1,6 +1,5 @@
 package image;
 
-import color.colors.Colors;
 import color.space.ColorSpace;
 import processing.core.PImage;
 import sampling.CombinedSampler;
@@ -8,7 +7,6 @@ import sampling.GraphicsSampler;
 import sampling.Sampler;
 import util.vector.Vector;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;

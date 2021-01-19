@@ -1,7 +1,5 @@
 package organic.structure;
 
-import organic.structure.segment.Segment;
-
 import java.util.List;
 
 public interface Tree<T extends Tree<T>> {

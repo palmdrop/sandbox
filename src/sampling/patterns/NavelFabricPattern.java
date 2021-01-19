@@ -1,20 +1,11 @@
 package sampling.patterns;
 
-import color.colors.Colors;
-import sampling.GraphicsHeightMap;
-import sampling.GraphicsSampler;
 import sampling.Sampler;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sampling.heightMap.modified.WarpedHeightMap;
-import util.ArrayAndListTools;
-import util.file.FileUtils;
-import util.geometry.Circle;
-import util.math.MathUtils;
 import util.noise.ComplexFractalHeightMap;
-import util.noise.FractalHeightMap;
 import util.noise.generator.GNoise;
-import util.vector.Vector;
 
 import java.util.function.Supplier;
 

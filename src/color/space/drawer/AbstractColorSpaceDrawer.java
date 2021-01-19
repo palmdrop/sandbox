@@ -1,7 +1,6 @@
 package color.space.drawer;
 
 import color.space.ColorSpace;
-import color.space.InvalidColorComponentException;
 import render.AbstractPixelDrawer;
 import util.geometry.Rectangle;
 import util.math.MathUtils;

@@ -8,17 +8,11 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import render.Drawer;
 import render.SampleDrawer;
-import render.heightMap.FadingHeightMapDrawer;
 import sampling.GraphicsHeightMap;
 import sampling.GraphicsSampler;
-import sampling.Sampler;
-import sampling.countour.Contour;
-import sampling.countour.Contours;
 import sampling.domainWarp.DomainWarp;
 import sampling.domainWarp.SimpleDomainWarp;
 import sampling.heightMap.HeightMap;
-import sampling.heightMap.HeightMaps;
-import sampling.patterns.CurlWavePattern;
 import sampling.patterns.FabricSurfacePattern;
 import sketch.Sketch;
 import text.SymbolAnalysis;
@@ -28,11 +22,6 @@ import util.ArrayAndListTools;
 import util.file.FileUtils;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import util.noise.Noise;
-import util.noise.generator.GNoise;
-import util.noise.type.CellularNoise;
-import util.noise.type.CraterNoise;
-import util.noise.type.NoiseSource;
 import util.vector.Vector;
 
 
@@ -50,12 +39,6 @@ public class TextGridSketch implements Sketch {
         this.p = p;
         this.bounds = bounds;
         this.multiplier = multiplier;
-
-        String[] fonts = PFont.list();
-        for (String font : fonts) {
-            System.out.println(font);
-        }
-
 
         String f =
                 "scientifica Bold";
@@ -83,7 +66,6 @@ public class TextGridSketch implements Sketch {
                 );
 
         HeightMap hm =
-            //HeightMaps.stretch(heightMap, stretch, stretch);
             new FabricSurfacePattern(0.001, 0.3, 0.5, 1.7, 0.5, 40);
 
         this.hm = hm;
@@ -124,7 +106,6 @@ public class TextGridSketch implements Sketch {
 
         TextGridDrawer.CharController cc = (x,y) -> {
             double n = hm.get(x,y);
-            //n += MathUtils.random(-1, 1)/ (chars.length - 1);
             n = Math.pow(n, 2);
             n = MathUtils.limit(n, 0, 1.0);
             return n;
@@ -135,16 +116,6 @@ public class TextGridSketch implements Sketch {
             double s = 0.0;
             double b = 0.8;
 
-            int index = (int) MathUtils.map(n, 0, 1, 0, chars.length - 1);
-            /*if(chars[index] == '=' || chars[index] == 'a' || chars[index] == '9') {
-                b = 0.7;
-                s = 0.2;
-            }
-            if(chars[index] == '#') {
-                b = 0.4;
-                h = 0.8;
-            }*/
-
             Color c = Colors.HSB_SPACE.getColor(h, s, b);
             return c;
         };
@@ -152,7 +123,6 @@ public class TextGridSketch implements Sketch {
 
 
         drawer = new TextGridDrawer(p, bounds, f, size, padding, chars, cc, bgc, fgc);
-        //heightMap = new CurlWavePattern(0.01, 0.01, Math.random() * 6.3, 0.6, 2.0, 1.0, 8);
         this.heightMap = heightMap;
     }
 
@@ -160,13 +130,13 @@ public class TextGridSketch implements Sketch {
     public PGraphics draw(PGraphics canvas, double frequency) {
         drawer.draw(canvas);
         //canvas.image(image, 0, 0);
-        DomainWarp<Integer> graphics = new SimpleDomainWarp<>(new GraphicsSampler(canvas.copy()));
+        //DomainWarp<Integer> graphics = new SimpleDomainWarp<>(new GraphicsSampler(canvas.copy()));
         //graphics.domainWarp(new GraphicsHeightMap(image, GraphicsSampler.WrapMode.MIRROR_WRAP, Colors::brightness), offset);
-        graphics.domainWarp(hm, 50);
+        //graphics.domainWarp(hm, 50);
 
-        Drawer gDrawer = new SampleDrawer(graphics, canvas.width, canvas.height, new Vector());
+        //Drawer gDrawer = new SampleDrawer(graphics, canvas.width, canvas.height, new Vector());
 
-        gDrawer.draw(canvas);
+        //gDrawer.draw(canvas);
 
         return canvas;
     }

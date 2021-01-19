@@ -1,20 +1,16 @@
 package nebula.designSettings.toExplore;
 
 import color.colors.Color;
-import color.colors.Colors;
 import color.colors.rgb.RGBColor;
 import nebula.AbstractNebulaSettings;
 import processing.core.PApplet;
 import render.heightMap.FadingHeightMapDrawer;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
-import sampling.heightMap.converter.PoissonDiskHeightMap;
 import sampling.heightMap.converter.RandomCircleHeightMap;
 import sampling.heightMap.modified.FeedbackHeightMap;
 import sampling.heightMap.modified.ModdedHeightMap;
-import util.noise.FractalHeightMap;
 import util.noise.generator.GNoise;
-import util.vector.Vector;
 
 public class GemSettings extends AbstractNebulaSettings {
     public GemSettings(PApplet p) {

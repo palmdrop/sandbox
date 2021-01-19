@@ -1,11 +1,12 @@
 package sketch.color;
 
+import color.colors.Color;
 import color.colors.Colors;
 import color.fade.ColorFade;
 import color.fade.fades.MultiColorFade;
-import color.palette.drawer.SimplePaletteDrawer;
 import color.palette.Palette;
 import color.palette.drawer.PaletteDrawer;
+import color.palette.drawer.SimplePaletteDrawer;
 import color.palette.palettes.balanced.sample1D.FadePalette;
 import processing.core.PGraphics;
 import render.AbstractDrawer;
@@ -14,8 +15,6 @@ import sampling.countour.Contours;
 import sketch.Sketch;
 import util.geometry.Rectangle;
 import util.geometry.divider.SimpleDivider;
-
-import color.colors.Color;
 
 import java.util.ArrayList;
 import java.util.List;

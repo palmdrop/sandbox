@@ -1,6 +1,5 @@
 package util;
 
-import processing.core.PImage;
 import util.math.MathUtils;
 
 import java.util.*;

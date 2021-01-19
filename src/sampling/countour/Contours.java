@@ -5,7 +5,6 @@ import sampling.Sampler1D;
 import util.math.MathUtils;
 import util.vector.Vector;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;

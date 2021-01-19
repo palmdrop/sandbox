@@ -2,7 +2,6 @@ package texture.texture.layered;
 
 import sampling.heightMap.HeightMap;
 import texture.texture.AbstractTexture;
-import texture.texture.simple.SimpleTexture;
 
 import java.util.function.Supplier;
 

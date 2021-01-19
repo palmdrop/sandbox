@@ -1,10 +1,10 @@
 package nebula.designSettings;
 
+import nebula.AbstractNebulaSettings;
+import render.heightMap.CombinedHeightMapDrawer;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sampling.heightMap.modified.FeedbackHeightMap;
-import nebula.AbstractNebulaSettings;
-import render.heightMap.CombinedHeightMapDrawer;
 import util.geometry.Circle;
 import util.geometry.Rectangle;
 import util.math.MathUtils;

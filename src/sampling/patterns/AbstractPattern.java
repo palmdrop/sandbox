@@ -1,7 +1,6 @@
 package sampling.patterns;
 
 import sampling.Sampler;
-import sampling.heightMap.HeightMap;
 import sampling.heightMap.modified.WarpedHeightMap;
 
 public class AbstractPattern implements Pattern {

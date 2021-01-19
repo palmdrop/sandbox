@@ -2,17 +2,16 @@ package sketch.constructivism;
 
 import color.colors.Color;
 import color.colors.Colors;
-import constructivism.ShapeVisitor;
 import constructivism.generation.RecursiveGeometryGenerator;
 import constructivism.shape.Ellipse;
 import constructivism.shape.Shape;
+import constructivism.shape.Triangle;
 import organic.generation.points.PointGenerator;
 import organic.generation.points.area.HeightMapPointGenerator;
 import organic.generation.points.gaussian.GaussianOffsetGenerator;
 import processing.core.PGraphics;
 import render.AbstractDrawer;
 import sampling.heightMap.HeightMap;
-import constructivism.shape.Triangle;
 import sketch.Sketch;
 import util.ArrayAndListTools;
 import util.geometry.Rectangle;

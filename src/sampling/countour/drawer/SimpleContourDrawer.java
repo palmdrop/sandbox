@@ -1,6 +1,5 @@
 package sampling.countour.drawer;
 
-import color.palette.Palette;
 import processing.core.PGraphics;
 import sampling.Sampler1D;
 import util.geometry.Rectangle;

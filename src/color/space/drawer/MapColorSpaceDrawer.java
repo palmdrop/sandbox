@@ -2,8 +2,6 @@ package color.space.drawer;
 
 import color.colors.Color;
 import color.space.ColorSpace;
-import color.space.InvalidColorComponentException;
-import processing.core.PGraphics;
 import render.AbstractPixelDrawer;
 import sampling.heightMap.HeightMap;
 import util.geometry.Rectangle;
