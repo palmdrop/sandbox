@@ -88,6 +88,17 @@ I suggest setting up the project in a popular IDE for easy use, since there's no
 
 There's many `main` classes in the project, all dedicated to exploring different concepts. Try running one of them. A window will be spawned and after it finishes loading, you'll hopefully see something exiting on the screen. 
 
+Here's a short description of the purpose of each `main` class:
+
+* `ColorMain`: for generating color palettes and playing around with color spaces.
+* `ImageMain`: for mixing images together and analyzing image data.
+* `NebulaMain`: for creating organic shapes and landscapes.
+* `OrganicMain`: for algorithms simulating plant growth.
+* `ChaoticOrganicMain`: a more chaotic take on `OrganicMain`.
+* `TextMain`: for analyzing font letters and using them to visualize images or heightmaps. 
+* `Texturemain`: similar to `NebulaMain`, but specifically constructed to design interesting textures using noise and domain warping. 
+* `VisionMain`: for analyzing any type of raw data and visualizing it in an (hopefully) unconventional way.
+
 Most main classes instantiates a `Sketch` class which is responsible for envisioning a particular idea, experiment or concept. Each sketch is in turn an instantiation of a `Drawer` which takes a `PGraphics` object (native to Processing). This object is drawn to, and then the main class shows the result to the screen. I suggest studying the [Processing documentation](https://processing.org/reference/) to find out more about how this works.
 
 The sketches can be found in the `sketch` package. The names of the the subpackages correspond to the different `main` files. Usually, it's possible to comment out the currently used sketch and instantiate another one from the corresponding package. 
