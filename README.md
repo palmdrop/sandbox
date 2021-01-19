@@ -49,60 +49,46 @@
 
 This is a long-lived super-project containing a collection of generative techniques I've been working on recently. The structure may be unconventional, and the documentation (comments and other) lacking, but please remember that this has for a long time just been hidden away in a private repository for the sake of personal exploration of generative art and procedural generation, among other things. 
 
-Most of my work is posted on reddit or on my instagram (athough a blog is in the works, link will be up soon), but this project is one of the first steps of actually sharing the code. Since this is just a sandbox, there's no interface for using the application. Instead, the project contains many "main" files for trying out different concepts, and most main files are assoicated with multiple "sketches" that run related ideas. For now, the source code has to be edited in order to change the settings. A short usage guide can be found under <a href="#usage">Usage</a>.
+Most of my work is posted on reddit or on my instagram (athough a blog is in the works, link will be up soon), but this project is one of the first steps of actually sharing the code. Since this is just a sandbox, there's no interface for using the application. Instead, the project contains many "main" files for trying out different concepts, and most main files are assoicated with multiple "sketches" that run related ideas. For now, the source code has to be edited in order to change the settings. A short usage guide can be found under <a href="#usage">usage</a>.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should element DRY principles to the rest of your life :smile:
+I realize this is more of a library now than anything else, although scattered and probably incoherent. Explore at your own peril, but if you find anything (a class, a module, whatever) you like, feel free to use it in your own projects.
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have have contributed to expanding this template!
-
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
+Regarding the project structure:
+* TODO DESCRIBE DIRECTORIES!
 
 ### Built With
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
-
-
+No big frameworks used, however [processing](https://processing.org/) is required. The project is not formated as a processing sketch. Instead, the processing core is imported as a library. This was done to ensure that I could use a regular IDE (like intellij IDEA) for organizing the code. More on installation/prerequisites under<a href="#getting-started">getting started</a>.
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+I suggest setting up the project in a popular IDE for easy use, since there's no installation script (and as mentioned, no user interface). I'll go through how to set the project up using Intellij IDEA, but other IDE's shouldn't be much different. 
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+* [JDK 11](https://openjdk.java.net/projects/jdk/11/) (or newer)
+* [Processing 3.5.X](https://processing.org/download/) (or newer)
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Install JDK 11 or newer.
+2. Install processing 3.5.4 or newer.
+3. Clone this repository
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/palmdrop/sandbox.git
    ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-
+3. Setup a java project (for example, using a popular IDE like Intellij IDEA or Eclipse)
+    * *Here follows an example setup using Intellij IDEA:* 
+    a) Create a new project, choose the sandbox repository you've just cloned.
+    b) 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+
+There's many `main` files in the project. These are all for exploring different concepts. Try running one of them. A window will be spawned and after it finishes loading, you'll hopefully see something exiting on the screen. 
+
+
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 

@@ -10,7 +10,7 @@ sourceImages/*
 output/*
 !output/example*
 
-palettes
+/palettes
 
 # Media #
 #*.png
