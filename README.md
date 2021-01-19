@@ -35,12 +35,10 @@
   </ol>
 </details>
 
-![Object 1](https://github.com/palmdrop/sandbox/output/example-texture-oo1.jpg)
+![Object 1](/output/example-texture-oo1.jpg "Digital object one")
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 This is a long-lived super-project containing a collection of generative techniques I've been working on recently. The structure may be unconventional, and the documentation (comments and other) lacking, but please remember that this has for a long time just been hidden away in a private repository for the sake of personal exploration of generative art and procedural generation, among other things. 
 
@@ -48,8 +46,14 @@ Most of my work is posted on reddit or on my instagram (athough a blog is in the
 
 I realize this is more of a library now than anything else, although scattered and probably incoherent. Explore at your own peril, but if you find anything (a class, a module, whatever) you like, feel free to use it in your own projects.
 
-Regarding the project structure:
-* TODO DESCRIBE DIRECTORIES!
+Here's a few more sample images:
+
+![Bridge](/output/example-texture-surface1.png)
+![Mess](/output/example-mess1.png)
+![Text](/output/example-text1.png)
+![Mix](/output/example-imagemix1.png)
+
+More images can be found under `output`.
 
 ### Built With
 
@@ -96,32 +100,9 @@ To change the settings of a particular sketch, you'll have to edit the values an
 
 I do not expect any form of contributing to this project. However, if you do find an especially interesting configuration, or happen to use some of this code for a project of your own, feel free to share. 
 
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. 
-
 <!-- CONTACT -->
-## Contact
+## Contact and social media
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
-o
+* [Email](mailto:anton@exlex.se) (the most reliable way of reaching me)
+* [Instagram](https://www.instagram.com/palmdrop/) (where I showcase a lot of my work)
+* [Blog](palmdrop.github.io) (where I occasionally write posts about my techniques)
