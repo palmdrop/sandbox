@@ -32,7 +32,6 @@ public class NebulaMain extends PApplet {
         canvas = createGraphics(sketchWidth, sketchHeight);
         NebulaSettings settings =
                 new HighwaySettings(this);
-                //new TestSettings(this);
                 //new ShapeSettings(this, sketchWidth, sketchHeight);
                 //new GemSettings(this);
                 //new CombinedSettings(-sketchWidth/2, -sketchHeight/2, sketchWidth, sketchHeight);

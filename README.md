@@ -1,8 +1,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/palmdrop/sandbox">
+    <img src="output/example-texture-oo1.jpg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Sandbox</h3>
@@ -90,40 +90,21 @@ I suggest setting up the project in a popular IDE for easy use, since there's no
 
 There's many `main` files in the project. These are all for exploring different concepts. Try running one of them. A window will be spawned and after it finishes loading, you'll hopefully see something exiting on the screen. 
 
+Most main classes instatiates a `Sketch` class which is responsible for envisioning a particular idea, experiment or concept. Each sketch is in turn an instantiation of a `Drawer` which takes a `PGraphics` object (native to Processing). This object is drawn to, and then the main class shows the result to the screen. I suggest studying the [Processing documentation](https://processing.org/reference/) to find out more about how this works.
 
+The sketches can be found in the `sketch` package. The names of the the subpackages correspond to the different `main` files. Usually, it's possible to comment out the currently used sketch and instatiate another one from the corresponding package. 
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
-
-
+To change the settings of a particular sketch, you'll have to edit the values and setups contained within the sketches. Unfortunately, I will not add any detailed instructions for how to use each one. If you're actually interested in running any of them, you'll have to do some experimentation on your own. As mentioned, this project was initially only intended for personal use and nothing else. Maybe in the future I'll create a usable interface for some of the sketches. 
 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
+I do not expect any form of contributing to this project. However, if you do find an especially interesting configuration, or happen to use some of this code for a project of your own, feel free to share. 
 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
+Distributed under the MIT License. 
 
 <!-- CONTACT -->
 ## Contact
