@@ -79,9 +79,9 @@ I suggest setting up the project in a popular IDE for easy use, since there's no
    git clone https://github.com/palmdrop/sandbox.git
    ```
 3. Setup a java project (below follows some steps for setting up an Intellij IDEA project, but any IDE could be used)
-    a) Open the `sandbox` repository you've just cloned as a project.
-    b) Under `Project structure -> Project` pick java 11 as the Project SDK (also make sure the language level is at least 11).
-    c) Under `Project structure -> SDKs` choose `11` (for Java 11) and then click `classpath`. Press `+` and navigate to where you installed Processing. Pick `processing-3.5.x/core/library/core.jar`. 
+    * Open the `sandbox` repository you've just cloned as a project.
+    * Under `Project structure -> Project` pick java 11 as the Project SDK (also make sure the language level is at least 11).
+    * Under `Project structure -> SDKs` choose `11` (for Java 11) and then click `classpath`. Press `+` and navigate to where you installed Processing. Pick `processing-3.5.x/core/library/core.jar`. 
 4. Run desired main class (all can be found directly under `src`).
 
 <!-- USAGE EXAMPLES -->
