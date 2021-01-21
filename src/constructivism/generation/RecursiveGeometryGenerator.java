@@ -8,6 +8,7 @@ import java.util.List;
 
 public class RecursiveGeometryGenerator {
     public static abstract class Generator implements ShapeVisitor {
+        private Shape parent = null;
         private List<Shape> next;
 
         protected void setNext(List<Shape> next) {
@@ -17,6 +18,7 @@ public class RecursiveGeometryGenerator {
         List<Shape> getNext() {
             return next;
         }
+        Shape getParent() { return parent; }
     }
 
     private final PGraphics canvas;
@@ -31,8 +33,7 @@ public class RecursiveGeometryGenerator {
 
 
     public void recursiveRender(Shape base, int step) {
-        base.draw(canvas);
-
+        //base.draw(canvas);
         base.accept(this.generator);
         List<Shape> generated = generator.getNext();
 
@@ -42,6 +43,7 @@ public class RecursiveGeometryGenerator {
         if(step >= maxRecursion) return;
 
         for(Shape shape : generated) {
+            generator.parent = base;
             recursiveRender(shape, step);
         }
     }
