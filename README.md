@@ -57,7 +57,7 @@ More can be found under `output`.
 
 ### Built With
 
-The project is built with the aid of [Processing.](https://processing.org/) However, the code is not formatted as a processing sketch. Instead, the processing core is imported as a library. This was done to ensure that I could use a regular IDE (like IntelliJ IDEA) for organizing the code. More about installation/prerequisites under <a href="#getting-started">getting started</a>.
+The project is built with the aid of [Processing.](https://processing.org/) However, the code is not formatted as a processing sketch. Instead, the processing core is imported as a library to ensure that I could use a regular IDE (like IntelliJ IDEA) for organizing the code. More about installation/prerequisites under <a href="#getting-started">getting started</a>.
 
 (A parenthesis about using Processing with any IDE: [this](https://happycoding.io/tutorials/java/processing-in-java) is a great blog post explaining how it can be done.)
 
