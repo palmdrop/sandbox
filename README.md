@@ -116,8 +116,9 @@ I do not expect any contributions to this project. However, if you do find an es
 
 <!-- CONTACT -->
 ## Contact and social media
+:mailbox_with_mail: [Email](mailto:anton@exlex.se) (the most reliable way of reaching me)
 
-* [Email](mailto:anton@exlex.se) (the most reliable way of reaching me)
-* [Instagram](https://www.instagram.com/palmdrop/) (where I showcase a lot of my work)
-* [Blog](palmdrop.github.io) (where I occasionally write posts about my process)
+:camera: [Instagram](https://www.instagram.com/palmdrop/)(where I showcase a lot of my work)
+
+:computer: [Blog](https://palmdrop.github.io/) (where I occasionally write posts about my process)
 
