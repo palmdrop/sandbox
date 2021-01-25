@@ -107,6 +107,8 @@ The sketches can be found in the `sketch` package. The names of the subpackages 
 
 To change the settings of a particular sketch, you'll have to edit the values and instantiated objects contained within the sketch itself. Unfortunately, I will not add any detailed instructions for how to use each one. If you're interested in running any of them, you'll have to do some experimentation on your own. As mentioned, this project was initially intended for personal use and nothing else. Maybe in the future, I'll create a user interface for some of the sketches. 
 
+General source data used by some of the sketches can be found under `sourceData`. Source images specifically can be found under `sourceImages`. You may have to change the paths used in certain sketches since I have excluded many of the source files from this repository due to privacy and copyright conerns. 
+
 <!-- CONTRIBUTING -->
 ## Contributing
 
