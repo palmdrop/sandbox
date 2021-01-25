@@ -10,7 +10,7 @@
   </p>
 </p>
 
-![Object 1](/output/example-texture-oo1.jpg "Digital object one")
+![Object 1](/output/example-texture-blob1.png "Digital object one")
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
