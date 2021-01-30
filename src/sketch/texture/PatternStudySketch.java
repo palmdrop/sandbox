@@ -32,6 +32,7 @@ public class PatternStudySketch extends AbstractDrawer implements Sketch {
     }
 
     public PGraphics draw(PGraphics canvas, double frequency, boolean superSampling) {
+        //TODO: adaptive sinewave frequency, ex slow in middle, increase outward!
         //double f = 0.01 + Math.random() * 0.1;
         double f = 0.1;
         double r =
