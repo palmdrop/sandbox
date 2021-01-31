@@ -65,12 +65,6 @@ public class TextureMain extends PApplet {
     public void keyPressed() {
         switch(key) {
             case 'r': reset(); break;
-            case 'q': {
-                String name ="output/commission/" + System.currentTimeMillis() + ".png";
-                canvas.save(name);
-                System.out.println("saved " + name);
-                break;
-            }
             case 's': {
                 PGraphics render = createGraphics((int)(screenWidth * saveQuality), (int)(screenHeight * saveQuality));
 
@@ -92,11 +86,4 @@ public class TextureMain extends PApplet {
             //case 's': savePalette(palette);
         }
     }
-
-    public void mousePressed() {
-        this.g.loadPixels();
-        int rgb = this.g.pixels[mouseX + mouseY * width];
-        System.out.println(new RGBColor(rgb).toHex());
-    }
-
 }
