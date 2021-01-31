@@ -6,6 +6,8 @@ import sampling.countour.drawer.SimpleContourDrawer;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import util.geometry.Rectangle;
+import util.noise.ComplexFractalHeightMap;
+import util.noise.FractalHeightMap;
 import util.noise.generator.GNoise;
 import util.vector.Vector;
 
@@ -28,16 +30,25 @@ public class VisualizeMain extends PApplet {
         Rectangle bounds = new Rectangle(canvas.width, canvas.height);
 
         HeightMap hm =
-                GNoise.simplexNoise(0.02, 1.0, 1.0).toDistorted()
-                .frequencyModulation(GNoise.simplexNoise(0.005, 1.0, 1.0), 0.5, 1.5);
+                //new FractalHeightMap(0.005, 1.0, 2.0, 0.5, FractalHeightMap.Type.SIMPLEX, 8, System.currentTimeMillis())
+                new ComplexFractalHeightMap(1.0,
+                        1.0,
+                        2.0,
+                        HeightMaps.constant(1.0),
+                        0.7,
+                        GNoise.simplexNoise(0.005, 1.0, 0.5),
+                        () -> HeightMaps.thresholdReverse(GNoise.simplexNoise(0.003, 1.0, 1.0), 1.0, false, false),
+                        8)
+                .setNormalize(true);
                 //.toModded().addMod(4);
 
         //hm = HeightMaps.mult(hm, GNoise.simplexNoise(0.01, 1.0, 1.0), 0.5);
 
 
         Drawer drawer =
-                new FadingHeightMapDrawer(hm, 0, 0);
-                //new SimpleContourDrawer(x -> hm.get(x, 0), 1000, Drawer.Mode.HORIZONTAL, new Rectangle(0, 0.0, 1000, 1), bounds);
+                //new FadingHeightMapDrawer(hm, 0, 0);
+                new SimpleContourDrawer(x -> hm.get(x, 0), 1000, Drawer.Mode.HORIZONTAL, new Rectangle(0, 0.0, 1000, 0.7), bounds);
+
 
         canvas.beginDraw();
         canvas.background(255);
