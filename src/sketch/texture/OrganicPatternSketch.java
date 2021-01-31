@@ -15,6 +15,7 @@ import util.math.MathUtils;
 import util.noise.ComplexFractalHeightMap;
 import util.noise.FractalHeightMap;
 import util.noise.generator.GNoise;
+import util.noise.type.CraterNoise;
 
 import java.util.function.Supplier;
 
@@ -37,7 +38,7 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
 
         //TODO string warp thingy but over an image, potentially just visibly or potentially warping the image! or both
 
-        double f = 0.08;
+        double f = 0.04;
 
         Supplier<HeightMap> heightMapSupplier = () -> {
             HeightMap h = (x, y) -> {
@@ -49,34 +50,22 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
                 y -= f * 500;
                 y = MathUtils.limit(y, -Math.PI, Math.PI);
 
-                return 0.5 + Math.pow(
-                        Math.cos(x),
-                        1.0) / 2;
+                return Math.pow(0.5 + Math.cos(y) / 2, 5.5);
             };
 
             return h.toDistorted().domainWarp(
-                    //GNoise.simplexNoise(0.001, 1.0, 1.0)
+                    //GNoise.simplexNoise(0.005, 1.0, 1.0)
                     new FractalHeightMap(0.001, 1.0, 1.8, 0.6, FractalHeightMap.Type.SIMPLEX, 8, (long) (Math.random() * 10000))
-                    , 300);
+                    , 200);
         };
 
         HeightMap base =
-                HeightMaps.sub(
+                heightMapSupplier.get();
+                /*HeightMaps.sub(HeightMaps.sub(
                         heightMapSupplier.get(),
                         heightMapSupplier.get()
                         //heightMapSupplier.get()
-                );
-
-        //base = HeightMaps.mult(base, 1.0 / 3);
-                        //.toModded().addRemap(0, 2, 0, 1);
-
-
-                //heightMapSupplier.get();
-                /*heightMapSupplier.get().toDistorted()
-                .domainWarp(
-                        //GNoise.simplexNoise(0.001, 1.0, 1.0)
-                        new FractalHeightMap(0.001, 1.0, 1.8, 0.6, FractalHeightMap.Type.SIMPLEX, 8, System.currentTimeMillis())
-                        , 300);*/
+                ), heightMapSupplier.get());*/
 
         Sampler<Double> texture = base;
 
@@ -86,15 +75,16 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
         for(int i = 0; i < recursionSteps; i++) {
             texture =
                     new WarpedHeightMap(texture).domainWarp(
-                            //texture,
-                            heightMapSupplier.get(),
+                            //heightMapSupplier.get(),
+                            texture,
+                            texture,
                             //HeightMaps.constant(1),
                             //,
                             warpAmount);
         }
 
         HeightMap h =
-                GNoise.simplexNoise(0.01, 1.0, 1.0)
+                GNoise.simplexNoise(0.006, 1.0, 1.0)
                 .toDistorted().domainWarp(texture, 100);
 
         MapColorSpaceDrawer drawer = new MapColorSpaceDrawer(Colors.HSB_SPACE, null, canvas.width, canvas.height,
