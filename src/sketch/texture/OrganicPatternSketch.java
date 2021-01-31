@@ -38,6 +38,9 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
 
         //TODO string warp thingy but over an image, potentially just visibly or potentially warping the image! or both
 
+        //TODO warp over an image that is mostly texture, blurred, a pattern, etc...
+        //TODO try layers of strings, drawn on transparent backgrounds, overlayed but not interacting
+
         double f = 0.04;
 
         Supplier<HeightMap> heightMapSupplier = () -> {
