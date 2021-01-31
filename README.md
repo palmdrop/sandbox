@@ -100,6 +100,7 @@ Here's a short description of the purpose of each `main` class:
 * `TextMain`: for analyzing font letters and using them to visualize images or heightmaps. 
 * `Texturemain`: similar to `NebulaMain`, but specifically designed to produce interesting textures using noise and domain warping. 
 * `VisionMain`: for analyzing any type of raw data and visualizing it in a (hopefully) unconventional way.
+* `VisualizeMain`: for simple visualizations of noise variations (doesn't use the sketch structure).
 
 Most main classes instantiate a `Sketch` class which is responsible for envisioning a particular idea, experiment, or concept. Each sketch is in turn an instantiation of a `Drawer` which takes a `PGraphics` object (native to Processing). This object is drawn to, and then the main class shows the result to the screen. I suggest studying the [Processing documentation](https://processing.org/reference/) to find out more about how this works.
 
