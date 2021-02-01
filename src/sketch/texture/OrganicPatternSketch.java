@@ -24,12 +24,7 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
         super(bounds);
     }
 
-    @Override
-    public PGraphics draw(PGraphics canvas, double frequency) {
-        return draw(canvas, frequency, false);
-    }
-
-    public PGraphics draw(PGraphics canvas, double frequency, boolean superSampling) {
+    public PGraphics drawLayer(PGraphics canvas, double frequency, boolean superSampling) {
         //TODO explore long arms, biological strings, worms, etc!
         //TODO: ex long sine way warped many times, overlayed! ridged noise!
         //TODO warl slowly using lots of low frequency noise
@@ -53,12 +48,15 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
                 y -= f * 500;
                 y = MathUtils.limit(y, -Math.PI, Math.PI);
 
-                return Math.pow(0.5 + Math.cos(y) / 2, 5.5);
+                return Math.pow(0.5 + Math.cos(x) / 2, 5.5);
             };
 
             return h.toDistorted().domainWarp(
                     //GNoise.simplexNoise(0.005, 1.0, 1.0)
-                    new FractalHeightMap(0.001, 1.0, 1.8, 0.6, FractalHeightMap.Type.SIMPLEX, 8, (long) (Math.random() * 10000))
+                    new ComplexFractalHeightMap(0.002, 1.0,
+                            1.8, HeightMaps.constant(1.0),
+                            0.5, HeightMaps.constant(1.0),
+                            FractalHeightMap.Type.SIMPLEX, 8, (long) (Math.random() * 10000))
                     , 200);
         };
 
@@ -78,17 +76,17 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
         for(int i = 0; i < recursionSteps; i++) {
             texture =
                     new WarpedHeightMap(texture).domainWarp(
+                            texture,
+                            //texture,
                             //heightMapSupplier.get(),
-                            texture,
-                            texture,
-                            //HeightMaps.constant(1),
+                            HeightMaps.constant(1),
                             //,
                             warpAmount);
         }
 
         HeightMap h =
                 GNoise.simplexNoise(0.006, 1.0, 1.0)
-                .toDistorted().domainWarp(texture, 100);
+                        .toDistorted().domainWarp(texture, 100);
 
         MapColorSpaceDrawer drawer = new MapColorSpaceDrawer(Colors.HSB_SPACE, null, canvas.width, canvas.height,
                 h,
@@ -107,5 +105,15 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
         drawer.draw(canvas, frequency);
 
         return canvas;
+
+    }
+
+    @Override
+    public PGraphics draw(PGraphics canvas, double frequency) {
+        return draw(canvas, frequency, false);
+    }
+
+    public PGraphics draw(PGraphics canvas, double frequency, boolean superSampling) {
+        return drawLayer(canvas, frequency, superSampling);
     }
 }
