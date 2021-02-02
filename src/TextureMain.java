@@ -41,17 +41,20 @@ public class TextureMain extends PApplet {
                 //new PatternStudySketch(bounds);
                 new OrganicPatternSketch(bounds);
 
+
         //sketch.createApplier(blur);
 
         canvas.beginDraw();
-        canvas.background(255);
+        //canvas.background(255);
         sketch.draw(canvas);
         canvas.endDraw();
+
+        System.out.println(String.format("%x", color(0, 0, 0, 255)));
     }
 
     @Override
     public void draw() {
-        background(0);
+        background(0, 0, 0);
         image(canvas, 0, 0, screenWidth, screenHeight);
     }
 

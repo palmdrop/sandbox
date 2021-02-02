@@ -1,6 +1,7 @@
 package color.space.drawer;
 
 import color.colors.Color;
+import color.colors.Colors;
 import color.space.ColorSpace;
 import render.AbstractPixelDrawer;
 import sampling.heightMap.HeightMap;
@@ -16,6 +17,9 @@ public class MapColorSpaceDrawer extends AbstractPixelDrawer implements ColorSpa
 
     private double[] componentMin;
     private double[] componentMax;
+
+    private boolean hasAlpha = false;
+    private HeightMap alpha = null;
 
     public MapColorSpaceDrawer(ColorSpace colorSpace, Rectangle bounds, HeightMap... componentMaps) {
         this(colorSpace, bounds, 1, 1, componentMaps);
@@ -58,6 +62,18 @@ public class MapColorSpaceDrawer extends AbstractPixelDrawer implements ColorSpa
         for(int i = 0; i < components.length; i++) {
             components[i] = MathUtils.map(componentMaps.get(i).get(p), 0, 1, componentMin[i], componentMax[i]);
         }
-        return colorSpace.getColor(components).toRGB();
+        int color = colorSpace.getColor(components).toRGB();
+        if(hasAlpha) {
+            return Colors.withAlpha(color, alpha.get(p));
+        } else {
+            return color;
+        }
+
+    }
+
+    public MapColorSpaceDrawer addAlpha(HeightMap alpha) {
+        hasAlpha = true;
+        this.alpha = alpha;
+        return this;
     }
 }

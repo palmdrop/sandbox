@@ -92,7 +92,9 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
                 h,
                 HeightMaps.constant(1.0),
                 texture::get
-        );
+        ).addAlpha(texture::get);
+
+        drawer.blend(true);
 
         double hStart = Math.random();
         double hEnd = hStart + (Math.random() > 0.5 ? -1 : 1) * MathUtils.random(0.4, 0.55);
@@ -114,6 +116,8 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
     }
 
     public PGraphics draw(PGraphics canvas, double frequency, boolean superSampling) {
-        return drawLayer(canvas, frequency, superSampling);
+        drawLayer(canvas, frequency, superSampling);
+        drawLayer(canvas, frequency, superSampling);
+        return canvas;
     }
 }

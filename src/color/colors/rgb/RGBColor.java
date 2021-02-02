@@ -1,5 +1,6 @@
 package color.colors.rgb;
 
+import color.colors.Color;
 import color.colors.Colors;
 import util.math.MathUtils;
 
@@ -13,7 +14,8 @@ public class RGBColor implements RGB, Serializable {
     }
 
     public RGBColor(int rgb, double alpha) {
-        this.rgb = Colors.withAlpha(rgb, alpha);
+        //this.rgb = Colors.withAlpha(rgb, alpha);
+        this(Colors.red(rgb), Colors.green(rgb), Colors.blue(rgb), 255 * alpha);
     }
 
     public RGBColor(int r, int g, int b) {
