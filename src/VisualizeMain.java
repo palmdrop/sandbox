@@ -2,10 +2,13 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import render.Drawer;
 import render.heightMap.FadingHeightMapDrawer;
+import sampling.Sampler1D;
+import sampling.countour.Contours;
 import sampling.countour.drawer.SimpleContourDrawer;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import util.geometry.Rectangle;
+import util.math.MathUtils;
 import util.noise.ComplexFractalHeightMap;
 import util.noise.FractalHeightMap;
 import util.noise.generator.GNoise;
@@ -30,8 +33,13 @@ public class VisualizeMain extends PApplet {
         Rectangle bounds = new Rectangle(canvas.width, canvas.height);
 
         HeightMap hm =
+                HeightMaps.pow(
+                    HeightMaps.thresholdReverse(GNoise.simplexNoise(0.01, 1.0, 1.0), 0.5, false, true),
+                        HeightMaps.constant(2.0)
+
+                );
                 //new FractalHeightMap(0.005, 1.0, 2.0, 0.5, FractalHeightMap.Type.SIMPLEX, 8, System.currentTimeMillis())
-                new ComplexFractalHeightMap(1.0,
+                /*new ComplexFractalHeightMap(1.0,
                         1.0,
                         2.0,
                         HeightMaps.constant(1.0),
@@ -39,15 +47,18 @@ public class VisualizeMain extends PApplet {
                         GNoise.simplexNoise(0.005, 1.0, 0.5),
                         () -> HeightMaps.thresholdReverse(GNoise.simplexNoise(0.003, 1.0, 1.0), 1.0, false, false),
                         8)
-                .setNormalize(true);
+                .setNormalize(true);*/
                 //.toModded().addMod(4);
 
         //hm = HeightMaps.mult(hm, GNoise.simplexNoise(0.01, 1.0, 1.0), 0.5);
 
 
+        Sampler1D<Double> contour = Contours.easing(MathUtils.EasingMode.EASE_IN, 0.3);
+
         Drawer drawer =
-                //new FadingHeightMapDrawer(hm, 0, 0);
-                new SimpleContourDrawer(x -> hm.get(x, 0), 1000, Drawer.Mode.HORIZONTAL, new Rectangle(0, 0.0, 1000, 0.7), bounds);
+                new FadingHeightMapDrawer(hm, 0, 0);
+                //new SimpleContourDrawer(x -> hm.get(x, 0), 1000, Drawer.Mode.HORIZONTAL, new Rectangle(0, 0.0, 1000, 1.0), bounds);
+                //new SimpleContourDrawer(contour, 1000, Drawer.Mode.HORIZONTAL, new Rectangle(0, 0.0, 1.0, 1.0), bounds);
 
 
         canvas.beginDraw();
