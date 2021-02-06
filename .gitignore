@@ -12,6 +12,8 @@ output/*
 
 /palettes
 
+.attach_pid*
+
 # Media #
 #*.png
 #*.jpg
