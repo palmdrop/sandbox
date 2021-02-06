@@ -2,6 +2,7 @@ package color.colors;
 
 import color.colors.hsb.HSB;
 import color.colors.hsb.HSBColor;
+import color.colors.rgb.RGB;
 import color.colors.rgb.RGBColor;
 import color.space.ColorSpace;
 import color.space.space.*;
@@ -104,7 +105,24 @@ public class Colors {
     }
 
     public static int withAlpha(int rgb, double alpha) {
-        return rgb | ((int)(alpha * 255) & 255) << 24;
+        //return rgb | ((int)(alpha * 255) & 255) << 24;
+        return new RGBColor(rgb, alpha).toRGB();
+    }
+
+    public static int blend(int c1, int c2) {
+        double alpha1 = alpha(c1);
+        double alpha2 = alpha(c2);
+        double totalAlpha = alpha1 + alpha2;
+
+        double weight0 = alpha1 / totalAlpha;
+        double weight1 = alpha2 / totalAlpha;
+
+        double r = weight0 * red(c1) + weight1 * red(c2);
+        double g = weight0 * green(c1) + weight1 * green(c2);
+        double b = weight0 * blue(c1) + weight1 * blue(c2);
+        double a = Math.max(alpha1, alpha2);
+
+        return new RGBColor(r, g, b, a).toRGB();
     }
 
     //GET
