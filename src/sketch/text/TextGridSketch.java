@@ -56,6 +56,8 @@ public class TextGridSketch implements Sketch {
 
         image = p.loadImage(path);
 
+        image.resize((int)bounds.width, (int)bounds.height);
+
         GraphicsHeightMap heightMap =
                 new GraphicsHeightMap(image, GraphicsSampler.WrapMode.CLAMP, Colors::brightness);
 
@@ -65,10 +67,12 @@ public class TextGridSketch implements Sketch {
                         (double)heightMap.getImage().height / bounds.height
                 );
 
-        HeightMap hm =
-            new FabricSurfacePattern(0.001, 0.3, 0.5, 1.7, 0.5, 40);
+        HeightMap pattern =
+            new FabricSurfacePattern(0.0002, 0.3, 0.5, 1.7, 0.5, 40);
 
-        this.hm = hm;
+        this.hm =
+                pattern;
+                //heightMap;
 
 
 
@@ -78,8 +82,8 @@ public class TextGridSketch implements Sketch {
                 //{'.', 'ö', 'å', ' ', ' ', ' '};
                 //{' ', ' ', ' ', ' ', '.', '.', '*', '*', 'o', 'o', 'O', 'O', '0', '0', 'U', 'U'};
                 //{' ', ' ', ' ', ' ', '.', '.', '*', '*', 'o', 'o', 'O', 'O', '0', '0', 'U', 'U'};
-                //SymbolAnalysis.sortBy(TextTools.renderableAscii, 100, SymbolAnalysis::normalizedFill, p);
-                ArrayAndListTools.pick(
+                SymbolAnalysis.sortBy(TextTools.renderableAscii, 100, SymbolAnalysis::normalizedFill, p);
+                /*ArrayAndListTools.pick(
                         SymbolAnalysis.sortBy(TextTools.renderableAscii, 100, SymbolAnalysis::normalizedFill, p),
                         0,
                                 0,
@@ -102,7 +106,7 @@ public class TextGridSketch implements Sketch {
                         (int)(MathUtils.map(0.8, 0, 1, 0, l - 1) + MathUtils.random(-10, 10)),
                         (int)(MathUtils.map(0.9, 0, 1, 0, l - 1) + MathUtils.random(-10, 10)),
                         (int)(MathUtils.map(0.9, 0, 1, 0, l - 1) + MathUtils.random(-10, 10)),
-                                l - 1);
+                                l - 1);*/
 
         TextGridDrawer.CharController cc = (x,y) -> {
             double n = hm.get(x,y);
@@ -111,15 +115,17 @@ public class TextGridSketch implements Sketch {
             return n;
         };
 
+        double hStart = Math.random();
+        double hEnd = hStart + Math.random() * 0.8;
         TextGridDrawer.ColorController fgc = (x, y, n) -> {
-            double h = 0.7;
-            double s = 0.0;
-            double b = 0.8;
+            double h = MathUtils.map(n, 0.0, 1.0, hStart, hEnd);
+            double s = 0.3;
+            double b = MathUtils.map(n, 0, 1, 0.0, 1.0);
 
             Color c = Colors.HSB_SPACE.getColor(h, s, b);
             return c;
         };
-        TextGridDrawer.ColorController bgc = (x,y,n) -> Colors.HSB_SPACE.getColor(0.0, 0.0, 1.0, 0.0);
+        TextGridDrawer.ColorController bgc = (x,y,n) -> Colors.HSB_SPACE.getColor(hStart, 0.05, 0.1);
 
 
         drawer = new TextGridDrawer(p, bounds, f, size, padding, chars, cc, bgc, fgc);

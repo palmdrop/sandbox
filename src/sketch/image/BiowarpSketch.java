@@ -36,7 +36,8 @@ public class BiowarpSketch implements Sketch {
         this.image =
                 p.loadImage(
                         ArrayAndListTools.randomElement(FileUtils.listFiles(
-                                "sourceImages/collected/",
+                                "sourceImages/aesthetics/",
+                                    //"sourceImages/collected",
                                 new String[]{".png", ".jpg", ".jpeg"})).getPath());
         this.bounds = new Rectangle(0, 0, image.width, image.height);
     }
@@ -47,7 +48,13 @@ public class BiowarpSketch implements Sketch {
     }
 
     public PGraphics draw(PGraphics canvas, double frequency, boolean superSampling) {
-        double f = 20 / bounds.width;
+        double f = 11 / bounds.width;
+        double warp = bounds.width / 15;
+        double offset = bounds.width / 4.5;
+
+        double warpFrequency = 1.3 / bounds.width;
+
+        System.out.println("f=" + f + "\nwarp=" + warp + "\noffset=" + offset);
 
         Supplier<HeightMap> heightMapSupplier = () -> {
             HeightMap h = (x, y) -> {
@@ -63,17 +70,17 @@ public class BiowarpSketch implements Sketch {
             };
 
             return h.toDistorted().domainWarp(
-                    new ComplexFractalHeightMap(0.002, 1.0,
+                    new ComplexFractalHeightMap(warpFrequency, 1.0,
                             1.8, HeightMaps.constant(1.0),
                             0.5, HeightMaps.constant(1.0),
                             FractalHeightMap.Type.SIMPLEX, 8, (long) (Math.random() * 10000))
-                    , 200);
+                    , offset);
         };
 
         Sampler<Double> texture = heightMapSupplier.get();
 
         double warpAmount = 5;
-        int recursionSteps = 1;
+        int recursionSteps = 0;
 
         for(int i = 0; i < recursionSteps; i++) {
             texture =
@@ -106,7 +113,7 @@ public class BiowarpSketch implements Sketch {
         DomainWarp<Integer> imageSampler =
                 new SimpleDomainWarp<>(new GraphicsSampler(image, GraphicsSampler.WrapMode.MIRROR_WRAP));
 
-        imageSampler.domainWarp(texture, texture, 40);
+        imageSampler.domainWarp(texture, texture, warp);
 
         SampleDrawer imageDrawer = new SampleDrawer(imageSampler, bounds.width, bounds.height, new Vector());
 
