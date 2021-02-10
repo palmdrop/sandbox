@@ -96,24 +96,6 @@ public class CthulhuSketch implements Sketch {
     public PGraphics draw(PGraphics canvas, double frequency) {
         canvas.beginDraw();
 
-        //TODO: use image as base for spawning points!
-
-        //TODO: cycle through different colors (slowly, black to white to black etc)
-        //TODO: determine color based on underlying noise value???
-
-        //TODO: use different shapes for each leaf? make sketch more interesting by introducing variations in how lines are drawed!
-        //TODO: introduce color!
-
-        //TODO: combine with images! have images, shapes, brand logos, fragments, etc, grow dynamically!
-        //TODO: ex: each leaf spawns a image fragment, varied in diff ways? interesting patterns?
-
-        //TODO: figure out interesting way of sampling a "blob" of an image... an amorphic or geometric shape to be repeated in strange ways...!
-
-        //TODO: render each layer at a different "z" coordinate, use 3d noise to vary content using this value!
-        //TODO: ex, 3d noise value might determine which source image to use for rendering!
-
-        //TODO: vary fill variables, ex vary stepsize, view, etc
-
         // Get start position and y value
         Vector startPos = spawningBehavior.get();
         double y = settingsMap.get(startPos);

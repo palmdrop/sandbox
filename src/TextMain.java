@@ -17,7 +17,7 @@ public class TextMain extends PApplet {
     private int windowWidth = 1000;
     private int windowHeight = 1000;
 
-    private double sketchMultiplier = 4.0;
+    private double sketchMultiplier = 10.0;
     private int sketchWidth  = (int) (windowWidth * sketchMultiplier);
     private int sketchHeight = (int) (windowHeight * sketchMultiplier);
 

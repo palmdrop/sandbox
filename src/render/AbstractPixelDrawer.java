@@ -12,6 +12,7 @@ public abstract class AbstractPixelDrawer extends AbstractDrawer implements Draw
     protected double yMultiplier;
 
     protected double blur;
+    protected boolean blend;
 
     protected boolean superSampling;
 
@@ -25,6 +26,7 @@ public abstract class AbstractPixelDrawer extends AbstractDrawer implements Draw
         this.xMultiplier = xMultiplier;
         this.yMultiplier = yMultiplier;
         this.blur = blur;
+        this.blend = false;
         this.superSampling = false;
     }
 
@@ -92,6 +94,10 @@ public abstract class AbstractPixelDrawer extends AbstractDrawer implements Draw
                 }
 
                 //int color = getColor(p);
+                if(blend) {
+                    int previous = canvas.pixels[x + y * canvas.width];
+                    color = Colors.blend(previous, color);
+                }
                 canvas.pixels[x + y * canvas.width] = color;
             }
             System.out.println(100 * x / canvas.width + "%");
@@ -101,6 +107,10 @@ public abstract class AbstractPixelDrawer extends AbstractDrawer implements Draw
         if(blur > 0.0) canvas.filter(PGraphics.BLUR, (float) blur);
 
         return canvas;
+    }
+
+    public void blend(boolean blend) {
+        this.blend = blend;
     }
 
     @Override

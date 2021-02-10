@@ -2,6 +2,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import sketch.Sketch;
+import sketch.image.BiowarpSketch;
 import sketch.image.PatternSketch;
 import util.geometry.Rectangle;
 
@@ -26,7 +27,8 @@ public class ImageMain extends PApplet {
         sketch =
                 //new GlitchSketch(this);
                 //new CombinedSketch(this);
-                new PatternSketch(this);
+                //new PatternSketch(this);
+                new BiowarpSketch(this);
                 //new GridSketch(this, 2, 2);
 
         // Set screen
@@ -50,7 +52,9 @@ public class ImageMain extends PApplet {
         // Create canvas
         canvas = createGraphics((int)bounds.getWidth(), (int)bounds.getHeight());
 
+        canvas.beginDraw();
         sketch.draw(canvas);
+        canvas.endDraw();
     }
 
 

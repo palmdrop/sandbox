@@ -1,6 +1,7 @@
 import color.colors.rgb.RGBColor;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import sketch.texture.OrganicPatternSketch;
 import sketch.texture.PatternStudySketch;
 import util.geometry.Rectangle;
 
@@ -17,7 +18,7 @@ public class TextureMain extends PApplet {
     private int sketchHeight = (int) (screenHeight * renderQuality);
 
     private
-        PatternStudySketch sketch;
+        OrganicPatternSketch sketch;
     private PGraphics canvas;
 
     @Override
@@ -37,19 +38,23 @@ public class TextureMain extends PApplet {
                 //new ColorGrainAndGlitchSketch(bounds);
                 //new RecursiveTextureSketch(bounds);
                 //new TestTextureSketch(bounds);
-                new PatternStudySketch(bounds);
+                //new PatternStudySketch(bounds);
+                new OrganicPatternSketch(bounds);
+
 
         //sketch.createApplier(blur);
 
         canvas.beginDraw();
-        canvas.background(255);
+        //canvas.background(255);
         sketch.draw(canvas);
         canvas.endDraw();
+
+        System.out.println(String.format("%x", color(0, 0, 0, 255)));
     }
 
     @Override
     public void draw() {
-        background(0);
+        background(0, 0, 0);
         image(canvas, 0, 0, screenWidth, screenHeight);
     }
 
@@ -65,12 +70,6 @@ public class TextureMain extends PApplet {
     public void keyPressed() {
         switch(key) {
             case 'r': reset(); break;
-            case 'q': {
-                String name ="output/commission/" + System.currentTimeMillis() + ".png";
-                canvas.save(name);
-                System.out.println("saved " + name);
-                break;
-            }
             case 's': {
                 PGraphics render = createGraphics((int)(screenWidth * saveQuality), (int)(screenHeight * saveQuality));
 
@@ -92,11 +91,4 @@ public class TextureMain extends PApplet {
             //case 's': savePalette(palette);
         }
     }
-
-    public void mousePressed() {
-        this.g.loadPixels();
-        int rgb = this.g.pixels[mouseX + mouseY * width];
-        System.out.println(new RGBColor(rgb).toHex());
-    }
-
 }
