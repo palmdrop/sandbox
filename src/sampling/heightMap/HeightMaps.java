@@ -228,13 +228,13 @@ public class HeightMaps {
         return (x, y) -> {
             double v = hm.get(x, y);
 
-            while(v > threshold || v < 0) {
+            while(v > threshold) {
                 if(v > threshold) {
                     v = threshold - (v - threshold);
                 }
                 if(clip && v < 0) {
                     v = 0;
-                } else {
+                } else if (v < 0) {
                     v = -v;
                 }
             }
