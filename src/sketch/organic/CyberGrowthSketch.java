@@ -3,148 +3,170 @@ package sketch.organic;
 import color.colors.Color;
 import color.colors.Colors;
 import color.fade.ColorFade;
-import color.fade.Fades;
-import color.fade.drawer.ColorFadeDrawer;
-import color.fade.drawer.MapColorFadeDrawer;
-import color.fade.fades.MultiColorFade;
 import color.fade.fades.RampFade;
-import color.palette.Palettes;
-import color.palette.palettes.balanced.sample1D.FadePalette;
 import organic.Component;
-import organic.generation.points.PointGenerator;
-import organic.generation.points.gaussian.GaussianOffsetGenerator;
-import organic.generation.points.limited.SetPointGenerator;
-import organic.generation.points.limited.UniformLinePointGenerator;
+import organic.generation.points.area.HeightMapPointGenerator;
 import organic.generation.segments.SpaceFillTree;
 import organic.structure.segment.Segment;
-import organic.structure.segment.drawer.FadingSegmentDrawer;
+import organic.structure.segment.drawer.PulsingSegmentDrawer;
+import processing.core.PApplet;
 import processing.core.PGraphics;
 import render.Drawer;
 import sampling.countour.Contours;
-import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sketch.Sketch;
-import texture.drawer.apply.ComponentTextureApplier;
-import texture.drawer.apply.TextureApplier;
-import texture.texture.layered.LayeredTexture;
+import util.ArrayAndListTools;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
 import util.noise.generator.GNoise;
 import util.vector.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CyberGrowthSketch implements Sketch {
     private Rectangle bounds;
+    private PApplet p;
 
-    public CyberGrowthSketch(Rectangle bounds) {
+    // Render bushes
+    private int iterations = 800;
+    private int numberOfLeaves = 8000;
+
+    private List<Vector> leaves;
+    private SpaceFillTree<Component> treeBuilder;
+
+    private List<Segment<Component>> roots;
+    private List<Drawer> drawers;
+
+    private ColorFade fade;
+    private ColorFade plantFade;
+    double startAngle = Math.random() * 2 * Math.PI;
+    private int layers = 5;
+
+    private HeightMapPointGenerator hp;
+
+    private PGraphics buffer;
+
+    public CyberGrowthSketch(PApplet p, Rectangle bounds) {
+        this.p = p;
         this.bounds = bounds;
-    }
-
-    private List<Vector> leafGenerator(Vector origin, Vector center, double deviation, int numberOfLeaves) {
-        PointGenerator base = new SetPointGenerator(center);
-        PointGenerator mainGenerator = new GaussianOffsetGenerator(base, 0, Math.PI * 2, deviation);
-
-
-        List<Vector> leaves = mainGenerator.generate(numberOfLeaves);
-
-        PointGenerator helperGenerator = new UniformLinePointGenerator(origin, center);
-
-        //helperGenerator = new GaussianOffsetGenerator(helperGenerator, 0, 0, deviation/5);
-        //leaves.addAll(helperGenerator.generate(numberOfLeaves/10));
-
-        return leaves;
+        roots = new ArrayList<>(layers);
+        drawers = new ArrayList<>(layers);
+        hp = new HeightMapPointGenerator(
+                //HeightMaps.sin(0.005, 0.005, 1.0, 4.0).toDistorted().rotate(bounds.getCenter(), 1.0, 0.3),
+                GNoise.simplexNoise(0.0012, 1.0, 12.0).toDistorted().rotate(bounds.getCenter(), 10, 0.2),
+                //HeightMaps.checkers(400, 400, 0, 1),
+                //HeightMaps.sin(0.002, 0.002, 1.0, 1.0),
+                //HeightMaps.circles(100, 100, 10, 10, new Vector(), 0.9),
+                (int)bounds.width, (int)bounds.height);
+        fade = getFade();
+        setup();
     }
 
     private ColorFade getFade() {
-
-        Color c = Colors.random();
-        RampFade fade = RampFade.fromColor(c, 0.4, 1.0, 1.0, RampFade.SatMode.DYNAMIC);
-
-        return fade;
+        Color c = Colors.random(Colors.HSB_SPACE, new double[]{0.0, 0.4, Math.pow(0.4, layers - layerCounter)}, new double[]{1.0, 0.6, Math.pow(0.9, layers - layerCounter)});
+        return RampFade.fromColor(c, 0.7, 1.0, 0.8, RampFade.SatMode.DYNAMIC);
     }
+
+    private ColorFade getSubFade() {
+        Color c = fade.get(1.0f - (float)layerCounter / layers);
+        //Color c = fade.get(Math.random());
+        return RampFade.fromColor(c, 0.4, 1.0, 0.8, RampFade.SatMode.DYNAMIC);
+    }
+
+    private void setup() {
+        leaves = leafGenerator();
+        plantFade = getSubFade();
+        treeBuilder = new SpaceFillTree<>(25, 200, 0.2, 5, 8.0);
+        roots.add(treeBuilder.generate(ArrayAndListTools.randomElement(leaves), startAngle, leaves, 1));
+        drawers.add(getDrawer(roots.get(roots.size() - 1)));
+    }
+
+    private List<Vector> leafGenerator() {
+        return hp.generate(numberOfLeaves);
+    }
+
+
+    private Drawer getDrawer(Segment<Component> root) {
+        double r = Math.random() * 8;
+        return
+                new PulsingSegmentDrawer(root, bounds,
+                        plantFade,
+                        1,
+                        MathUtils.random(40, 120),
+                        Contours.easing(MathUtils.EasingMode.EASE_OUT, 30),
+                        HeightMaps.stretch(hp.getHeightMap(), r, r)
+                        //HeightMaps.stretch(GNoise.simplexNoise(0.001, 1.0, 2.0), r, r)
+                        //HeightMaps.sin(0.01, 0.01, 0, 1.0)
+                );
+    }
+
+    private int growCounter = 0;
+    private int layerCounter = 0;
 
     @Override
     public PGraphics draw(PGraphics canvas, double frequency) {
-        ColorFade plantFade = getFade();
-
-        ColorFade backgroundFade =
-                new MultiColorFade(Colors.RGB_SPACE, Contours.linear(0, 1),
-                        Palettes.componentVariation(
-                            new FadePalette(plantFade, 5),
-                            Colors.HSB_SPACE,
-                            new double[]{1.0, 0.5, 0.2},
-                            MathUtils.BinaryOpMode.MULT
-                        )
-                        );
-
-        HeightMap cm = GNoise.simplexNoise(1.0, 1.0, 1.0);
-
-        ColorFadeDrawer backgroundDrawer
-                //= new SimpleColorFadeDrawer(backgroundFade, bounds, Mode.VERTICAL);
-                = new MapColorFadeDrawer(backgroundFade, cm, bounds);
-        backgroundDrawer.draw(canvas);
-
-
-        // Render bushes
-        double deviation = 160;
-        int iterations = 400;
-        int numberOfLeaves = 5000;
-
-        Vector center = new Vector(bounds.width/2.0, bounds.height/2.0);
-        Vector origin =
-                Vector.add(
-                center,
-                new Vector(MathUtils.random(-100, 100), deviation * 2.5));
-
-        int layers = 3;
-        for(int i = 0; i < layers; i++) {
-            List<Vector> leaves = leafGenerator(origin, center, deviation * Math.pow(1, i), numberOfLeaves);
-
-            double startAngle =
-                    //-Math.PI / 2;
-                    Math.random() * 2 * Math.PI;
-
-            SpaceFillTree<Component> treeBuilder = new SpaceFillTree<>(5, 40, 0.4, 5, 0.0);
-            Segment<Component> root = treeBuilder.generate(origin, startAngle, leaves, iterations);
-
-            //double start = (double)i / layers;
-            double start = 0.0;
-            //double amount = 1.0 / layers;
-            double amount = 1.0 / (layers - i);
-
-            ColorFade f = Fades.subfade(plantFade, start, start + amount);
-
-
-            Drawer drawer =
-                    new FadingSegmentDrawer(root, bounds,
-                            f,
-                            0.6,
-                            10,
-                            Contours.easing(MathUtils.EasingMode.EASE_OUT, 2)
-                    );
-            drawer.draw(canvas);
+        canvas.beginDraw();
+        if(layerCounter > layers) {
+            canvas.image(buffer, 0, 0);
+            canvas.endDraw();
+            return canvas;
         }
 
-        // Post processing
-        HeightMap c1 =
-                HeightMaps.constant(1.0);
-        HeightMap c2 =
-                //HeightMaps.constant(1.0);
-                HeightMaps.random(0.9, 1.0);
-        HeightMap c3 =
-                HeightMaps.random(0.9, 1.0);
+        if(buffer == null) {
+            buffer = p.createGraphics(canvas.width, canvas.height);
+        }
 
-        LayeredTexture texture = new LayeredTexture(c1, c2, c3);
-        TextureApplier textureApplier = new ComponentTextureApplier(texture, Colors.HSB_SPACE, bounds, 0.0);
+        //TODO use heightmap to generate points and let algorithm grow between these points
+        //TODO e.g grid, sine lines, weird shapes, letters
 
-        textureApplier.draw(canvas);
+        //TODO: grow shape, let shape spawn new points surrounding itself, grow to them, continue
+        //TODO: let points follow specific pattern?
 
-        //textureApplier = new CMYKTextureApplier(0.004, 0.3, 0.9, bounds);
-        //textureApplier.draw(canvas);
+        //TODO vary color depending on underlying noise?
+
+        //TODO 3d growth but 2d representation?
+
+        //TODO smaller structures, a simple shape, but with more detail
+        //TODO vary detail of space fills across layers
+        //TODO vary detail across space! dynamyc space fill tree
+
+        //TODO use same technique as in cthulhu sketch but using this new space-filling technique
 
 
 
+        for(int i = 0; i < 20; i++) {
+            treeBuilder.grow();
+            growCounter++;
+        }
+
+        if(growCounter >= iterations || treeBuilder.isExhausted()) {
+            setup();
+            growCounter = 0;
+            layerCounter++;
+
+            buffer.beginDraw();
+            buffer.image(canvas, 0, 0);
+            buffer.endDraw();
+        }
+
+        canvas.background(0);
+        canvas.image(buffer, 0, 0);
+
+        //for(int i = 0; i < roots.size(); i++) {
+            Drawer drawer = drawers.get(layerCounter);
+
+            canvas.stroke(255);
+            drawer.draw(canvas);
+        //}
+
+        canvas.stroke(255);
+        canvas.strokeWeight(5);
+        for(Vector p : leaves) {
+            //canvas.point((float)p.getX(), (float)p.getY());
+        }
+
+        canvas.endDraw();
         return canvas;
     }
 
