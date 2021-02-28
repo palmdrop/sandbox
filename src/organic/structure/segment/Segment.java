@@ -4,11 +4,12 @@ import organic.Component;
 import organic.ComponentHolder;
 import organic.structure.Tree;
 import util.vector.ReadVector;
+import util.vector.Vector;
 
 public interface Segment<T extends Component> extends Tree<Segment<T>>, ComponentHolder<T> {
-    ReadVector getDirection();
+    Vector getDirection();
     void setDirection(ReadVector direction);
 
-    ReadVector getPosition();
+    Vector getPosition();
     void setPosition(ReadVector position);
 }

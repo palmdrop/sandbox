@@ -4,15 +4,11 @@ import render.Drawer;
 import render.heightMap.FadingHeightMapDrawer;
 import sampling.Sampler1D;
 import sampling.countour.Contours;
-import sampling.countour.drawer.SimpleContourDrawer;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import util.noise.ComplexFractalHeightMap;
-import util.noise.FractalHeightMap;
 import util.noise.generator.GNoise;
-import util.vector.Vector;
 
 public class VisualizeMain extends PApplet {
     private int screenSize = 1000;

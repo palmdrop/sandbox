@@ -1,14 +1,14 @@
 package sampling.patterns;
 
 import sampling.heightMap.HeightMaps;
-import util.noise.ComplexFractalHeightMap;
-import util.noise.FractalHeightMap;
+import sampling.heightMap.modified.DynamicFractalHeightMap;
+import sampling.heightMap.modified.FractalHeightMap;
 import util.noise.generator.GNoise;
 
 public class FractalPattern extends AbstractPattern {
     public FractalPattern(double baseFrequency, double controlFrequency, double lacunarity, double persistence, double effect, int numberOfOctaves) {
          super(
-                 new ComplexFractalHeightMap(baseFrequency,
+                 new DynamicFractalHeightMap(baseFrequency,
                         1.0,
                         lacunarity,
                         HeightMaps.constant(1.0),

@@ -15,8 +15,8 @@ import sampling.heightMap.modified.pixelated.PixelatedSampler;
 import sketch.Sketch;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import util.noise.ComplexFractalHeightMap;
-import util.noise.FractalHeightMap;
+import sampling.heightMap.modified.DynamicFractalHeightMap;
+import sampling.heightMap.modified.FractalHeightMap;
 import util.noise.generator.GNoise;
 import util.vector.Vector;
 
@@ -55,7 +55,7 @@ public class RecursiveTextureSketch extends AbstractDrawer implements Sketch {
                 //hm1.toModded().addReverse(),
                 new ModdedHeightMap(hm1).addOffset(
                 //GNoise.simplexNoise(0.06, 1.0, 1.0),
-                new ComplexFractalHeightMap(0.009,
+                new DynamicFractalHeightMap(0.009,
                         1.0,
                         2.0,
                         //GNoise.simplexNoise(0.01, 1.0, 1.0).toModded().addRemap(0, 1, 0.93, 1.0),

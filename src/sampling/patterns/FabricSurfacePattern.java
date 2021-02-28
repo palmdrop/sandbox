@@ -4,7 +4,7 @@ import sampling.Sampler;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sampling.heightMap.modified.WarpedHeightMap;
-import util.noise.FractalHeightMap;
+import sampling.heightMap.modified.FractalHeightMap;
 import util.noise.generator.GNoise;
 
 import java.util.function.Supplier;

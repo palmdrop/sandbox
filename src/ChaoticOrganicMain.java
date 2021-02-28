@@ -1,8 +1,10 @@
 import color.colors.rgb.RGBColor;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import sketch.Sketch;
 import sketch.organic.CthulhuSketch;
+import sketch.organic.CyberGrowthSketch;
 import util.geometry.Rectangle;
 
 public class ChaoticOrganicMain extends PApplet {
@@ -36,7 +38,8 @@ public class ChaoticOrganicMain extends PApplet {
 
         sketch =
                 //new SegmentDrawSketch(bounds, this);
-                new CthulhuSketch(bounds, 1 / renderQuality);
+                //new CthulhuSketch(bounds, 1 / renderQuality);
+                new CyberGrowthSketch(this, bounds);
                 //new FrequenciesSketch(bounds, this);
         sketch.draw(canvas, renderQuality);
     }
@@ -44,11 +47,15 @@ public class ChaoticOrganicMain extends PApplet {
     @Override
     public void draw() {
 
-        for(int i = 0; i < 10; i++) {
-            sketch.draw(canvas, renderQuality);
+        for(int i = 0; i < 1; i++) {
+            sketch.draw(canvas, 1);
+            //sketch.draw(canvas, 1 / renderQuality);
         }
 
-        image(canvas, 0, 0, screenWidth, screenHeight);
+        PImage toRender = canvas.copy();
+        toRender.resize(screenWidth, screenHeight);
+
+        image(toRender, 0, 0, screenWidth, screenHeight);
     }
 
 
@@ -65,11 +72,7 @@ public class ChaoticOrganicMain extends PApplet {
         switch(key) {
             case 'r': reset(); break;
             case 's': {
-                PGraphics toSave = createGraphics(sketchWidth, sketchHeight);
-                toSave.beginDraw();
-                toSave.background(canvas);
-
-                toSave.save("output/test/" + System.nanoTime() + ".png");
+                canvas.save("output/growth/" + System.nanoTime() + ".png");
                 System.out.println("Saved!");
             }
         }

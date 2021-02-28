@@ -25,7 +25,7 @@ public class SimpleSegment<T extends Component> implements Segment<T> {
     }
 
     @Override
-    public ReadVector getDirection() {
+    public Vector getDirection() {
         return direction;
     }
 
@@ -35,7 +35,7 @@ public class SimpleSegment<T extends Component> implements Segment<T> {
     }
 
     @Override
-    public ReadVector getPosition() {
+    public Vector getPosition() {
         return position;
     }
 

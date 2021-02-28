@@ -106,16 +106,14 @@ public class ConstructivismSketch extends AbstractDrawer implements Sketch {
                 3
         );
 
-        List<Shape> shapes = new ArrayList<>();
+        /*List<Shape> shapes = new ArrayList<>();
         shapes.add(new Triangle(new Vector(100, 100), new Vector(200, 200), new Vector(250, 400)));
         shapes.add(new Ellipse(new Vector(500, 500), 30, 30));
 
         for(Shape s : shapes) {
             recursiveGeometryGenerator.recursiveRender(s, 0);
-        }
+        }*/
 
-        double h = Math.random();
-        double hIncrement = 0.002;
         for(int i = 0; i < baseShapes; i++) {
             PointGenerator generator = ArrayAndListTools.randomElement(generators);
 
@@ -126,8 +124,6 @@ public class ConstructivismSketch extends AbstractDrawer implements Sketch {
             if(t.area < 500) { i--; continue; }
 
             recursiveGeometryGenerator.recursiveRender(t, 0);
-
-            h += hIncrement;
         }
 
         canvas.endDraw();

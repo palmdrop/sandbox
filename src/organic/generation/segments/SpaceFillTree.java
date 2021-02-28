@@ -142,4 +142,8 @@ public class SpaceFillTree<T extends Component> {
         }
         return closest;
     }
+
+    public boolean isExhausted() {
+        return exhausted;
+    }
 }
