@@ -72,7 +72,6 @@ public class ChaoticOrganicMain extends PApplet {
         switch(key) {
             case 'r': reset(); break;
             case 's': {
-                //canvas.save("output/test/" + System.nanoTime() + ".png");
                 canvas.save("output/growth/" + System.nanoTime() + ".png");
                 System.out.println("Saved!");
             }

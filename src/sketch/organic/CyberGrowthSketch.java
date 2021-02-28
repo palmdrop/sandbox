@@ -26,35 +26,39 @@ import java.util.List;
 
 public class CyberGrowthSketch implements Sketch {
     private Rectangle bounds;
-    private PApplet p;
+    private final PApplet p;
 
-    // Render bushes
-    private int iterations = 800;
-    private int numberOfLeaves = 8000;
+    private final int iterations = 800;
+    private final int numberOfLeaves = 8000;
 
     private List<Vector> leaves;
     private SpaceFillTree<Component> treeBuilder;
 
-    private List<Segment<Component>> roots;
-    private List<Drawer> drawers;
+    private final List<Segment<Component>> roots;
+    private final List<Drawer> drawers;
 
-    private ColorFade fade;
+    private final ColorFade fade;
     private ColorFade plantFade;
     double startAngle = Math.random() * 2 * Math.PI;
-    private int layers = 5;
+    private final int layers = 10;
 
-    private HeightMapPointGenerator hp;
+    private final HeightMapPointGenerator hp;
 
     private PGraphics buffer;
 
     public CyberGrowthSketch(PApplet p, Rectangle bounds) {
         this.p = p;
+
         this.bounds = bounds;
         roots = new ArrayList<>(layers);
         drawers = new ArrayList<>(layers);
         hp = new HeightMapPointGenerator(
                 //HeightMaps.sin(0.005, 0.005, 1.0, 4.0).toDistorted().rotate(bounds.getCenter(), 1.0, 0.3),
-                GNoise.simplexNoise(0.0012, 1.0, 12.0).toDistorted().rotate(bounds.getCenter(), 10, 0.2),
+                GNoise.simplexNoise(0.002, 1.0, 4.0),
+                        //.toDistorted().rotate(bounds.getCenter(), 10, 0.2),
+                        //.toDistorted().domainWarp(
+                        //HeightMaps.sin(0.01, 0.01, 1.0, 1.0), 200),
+                                //GNoise.simplexNoise(0.001, 1.0, 1.0), 200),
                 //HeightMaps.checkers(400, 400, 0, 1),
                 //HeightMaps.sin(0.002, 0.002, 1.0, 1.0),
                 //HeightMaps.circles(100, 100, 10, 10, new Vector(), 0.9),
@@ -77,7 +81,7 @@ public class CyberGrowthSketch implements Sketch {
     private void setup() {
         leaves = leafGenerator();
         plantFade = getSubFade();
-        treeBuilder = new SpaceFillTree<>(25, 200, 0.2, 5, 8.0);
+        treeBuilder = new SpaceFillTree<>(30, 250, 0.2, 15, 3.0);
         roots.add(treeBuilder.generate(ArrayAndListTools.randomElement(leaves), startAngle, leaves, 1));
         drawers.add(getDrawer(roots.get(roots.size() - 1)));
     }
@@ -88,16 +92,19 @@ public class CyberGrowthSketch implements Sketch {
 
 
     private Drawer getDrawer(Segment<Component> root) {
-        double r = Math.random() * 8;
+        double r = Math.random() * 2;
         return
                 new PulsingSegmentDrawer(root, bounds,
                         plantFade,
-                        1,
-                        MathUtils.random(40, 120),
-                        Contours.easing(MathUtils.EasingMode.EASE_OUT, 30),
-                        HeightMaps.stretch(hp.getHeightMap(), r, r)
-                        //HeightMaps.stretch(GNoise.simplexNoise(0.001, 1.0, 2.0), r, r)
-                        //HeightMaps.sin(0.01, 0.01, 0, 1.0)
+                        HeightMaps.stretch(GNoise.simplexNoise(0.01, 1.0, 2.0), r, r),
+                        //hp.getHeightMap(),
+                        0.0,
+                        MathUtils.random(1, 5),
+                        MathUtils.random(60, 120),
+                        hp.getHeightMap(),
+                        //HeightMaps.stretch(GNoise.simplexNoise(0.01, 1.0, 2.0), r, r),
+                        1.0,
+                        Contours.easing(MathUtils.EasingMode.EASE_OUT, 20)
                 );
     }
 
@@ -107,6 +114,7 @@ public class CyberGrowthSketch implements Sketch {
     @Override
     public PGraphics draw(PGraphics canvas, double frequency) {
         canvas.beginDraw();
+        //canvas.strokeCap(PApplet.PROJECT);
         if(layerCounter > layers) {
             canvas.image(buffer, 0, 0);
             canvas.endDraw();
@@ -117,24 +125,6 @@ public class CyberGrowthSketch implements Sketch {
             buffer = p.createGraphics(canvas.width, canvas.height);
         }
 
-        //TODO use heightmap to generate points and let algorithm grow between these points
-        //TODO e.g grid, sine lines, weird shapes, letters
-
-        //TODO: grow shape, let shape spawn new points surrounding itself, grow to them, continue
-        //TODO: let points follow specific pattern?
-
-        //TODO vary color depending on underlying noise?
-
-        //TODO 3d growth but 2d representation?
-
-        //TODO smaller structures, a simple shape, but with more detail
-        //TODO vary detail of space fills across layers
-        //TODO vary detail across space! dynamyc space fill tree
-
-        //TODO use same technique as in cthulhu sketch but using this new space-filling technique
-
-
-
         for(int i = 0; i < 20; i++) {
             treeBuilder.grow();
             growCounter++;
@@ -144,6 +134,7 @@ public class CyberGrowthSketch implements Sketch {
             setup();
             growCounter = 0;
             layerCounter++;
+            System.out.println("Layer " + layerCounter);
 
             buffer.beginDraw();
             buffer.image(canvas, 0, 0);

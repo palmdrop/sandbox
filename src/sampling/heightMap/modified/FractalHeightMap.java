@@ -1,4 +1,4 @@
-package util.noise;
+package sampling.heightMap.modified;
 
 import sampling.Sampler;
 import sampling.heightMap.HeightMap;
@@ -20,12 +20,12 @@ public class FractalHeightMap implements HeightMap {
     protected final double lacunarity;
     protected final double persistence;
 
-    protected final List<? extends sampling.heightMap.HeightMap> octaves;
+    protected final List<? extends HeightMap> octaves;
 
     protected boolean normalize = false;
-    protected double divider = 1.0;
+    protected double divider;
 
-    private static sampling.heightMap.HeightMap[] toOctaveArray(Supplier<? extends Sampler<Double>> noiseSupplier, int numberOfOctaves) {
+    private static HeightMap[] toOctaveArray(Supplier<? extends Sampler<Double>> noiseSupplier, int numberOfOctaves) {
         if(numberOfOctaves <= 0) throw new IllegalArgumentException();
 
         HeightMap[] octaves = new HeightMap[numberOfOctaves];

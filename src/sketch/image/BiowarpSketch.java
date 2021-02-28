@@ -5,7 +5,6 @@ import color.space.drawer.MapColorSpaceDrawer;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import render.AbstractDrawer;
 import render.SampleDrawer;
 import sampling.GraphicsSampler;
 import sampling.Sampler;
@@ -19,8 +18,8 @@ import util.ArrayAndListTools;
 import util.file.FileUtils;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import util.noise.ComplexFractalHeightMap;
-import util.noise.FractalHeightMap;
+import sampling.heightMap.modified.DynamicFractalHeightMap;
+import sampling.heightMap.modified.FractalHeightMap;
 import util.noise.generator.GNoise;
 import util.vector.Vector;
 
@@ -70,7 +69,7 @@ public class BiowarpSketch implements Sketch {
             };
 
             return h.toDistorted().domainWarp(
-                    new ComplexFractalHeightMap(warpFrequency, 1.0,
+                    new DynamicFractalHeightMap(warpFrequency, 1.0,
                             1.8, HeightMaps.constant(1.0),
                             0.5, HeightMaps.constant(1.0),
                             FractalHeightMap.Type.SIMPLEX, 8, (long) (Math.random() * 10000))

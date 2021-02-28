@@ -1,12 +1,12 @@
 package sampling.patterns;
 
 import sampling.heightMap.HeightMaps;
-import util.noise.ComplexFractalHeightMap;
-import util.noise.FractalHeightMap;
+import sampling.heightMap.modified.DynamicFractalHeightMap;
+import sampling.heightMap.modified.FractalHeightMap;
 
 public class CurlWavePattern extends AbstractPattern {
     public CurlWavePattern(double baseFrequency, double waveFrequency, double waveAngle, double lacunarity, double persistence, double pow, int numberOfOctaves) {
-        super(new ComplexFractalHeightMap(baseFrequency,
+        super(new DynamicFractalHeightMap(baseFrequency,
                         1.0,
                         lacunarity,
                         HeightMaps.constant(1.0),

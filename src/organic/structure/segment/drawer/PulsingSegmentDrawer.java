@@ -6,33 +6,37 @@ import organic.structure.segment.Segment;
 import processing.core.PGraphics;
 import render.AbstractDrawer;
 import sampling.countour.Contour;
-import sampling.countour.Contours;
 import sampling.heightMap.HeightMap;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
 import util.vector.ReadVector;
-import util.vector.Vector;
 
 public class PulsingSegmentDrawer extends AbstractDrawer {
     private final ColorFade colorFade;
-    private final HeightMap controller;
+    private final HeightMap fadeController;
+    private final double fadeDepthInfluence;
 
     private final double minWidth;
     private final double maxWidth;
-    private final Contour widthFade;
+    private final Contour depthFade;
+    private final HeightMap widthController;
+    private final double widthDepthInfluence;
 
     private final Segment<?> root;
 
 
-    public PulsingSegmentDrawer(Segment<?> root, Rectangle bounds, ColorFade colorFade, double minWidth, double maxWidth, Contour widthFade, HeightMap controller) {
+    public PulsingSegmentDrawer(Segment<?> root, Rectangle bounds, ColorFade colorFade, HeightMap fadeController, double fadeDepthInfluence, double minWidth, double maxWidth, HeightMap widthController, double widthDepthInfluence, Contour depthFade) {
         super(bounds);
         this.root = root;
         this.colorFade = colorFade;
-        this.controller = controller;
+        this.fadeController = fadeController;
+        this.fadeDepthInfluence = fadeDepthInfluence;
 
         this.minWidth = minWidth;
         this.maxWidth = maxWidth;
-        this.widthFade = widthFade;
+        this.depthFade = depthFade;
+        this.widthController = widthController;
+        this.widthDepthInfluence = widthDepthInfluence;
     }
 
     private int rootDepth;
@@ -54,12 +58,13 @@ public class PulsingSegmentDrawer extends AbstractDrawer {
         }
 
         if (bounds.isInside(from.getPosition()) && bounds.isInside(to.getPosition())) {
-            //TODO querying depth must traverse large portion of tree... draw depth first and save depth as arugment!!!!
-            double amount = MathUtils.map(depth, rootDepth, 1, 1, 0);
-            double wf = widthFade.get(amount);
+            double amount = depthFade.get(MathUtils.map(depth, 1, rootDepth, 0, 1));
 
-            double width = MathUtils.map(wf * controller.get(to.getPosition()), 0, 1.0, minWidth, maxWidth);
-            Color color = colorFade.get(wf * controller.get(to.getPosition()));
+            double wd = Math.pow(amount, widthDepthInfluence);
+            double fd = Math.pow(amount, fadeDepthInfluence);
+
+            double width = MathUtils.map(wd * widthController.get(to.getPosition()), 0, 1.0, minWidth, maxWidth);
+            Color color = colorFade.get(fd * fadeController.get(to.getPosition()));
 
             canvas.stroke(color.toRGB());
             canvas.strokeWeight((float)width);
@@ -73,7 +78,6 @@ public class PulsingSegmentDrawer extends AbstractDrawer {
     private void drawPoint(PGraphics canvas, ReadVector p) {
         canvas.point((float)(p.getX()),(float)(p.getY()));
     }
-
 
     private void drawLine(PGraphics canvas, ReadVector p1, ReadVector p2) {
         canvas.line((float)p1.getX(), (float)p1.getY(), (float)p2.getX(), (float)p2.getY());

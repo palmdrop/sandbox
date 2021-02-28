@@ -1,21 +1,21 @@
-package util.noise;
+package sampling.heightMap.modified;
 
 import sampling.Sampler;
 import sampling.heightMap.HeightMap;
 
 import java.util.function.Supplier;
 
-public class ComplexFractalHeightMap extends FractalHeightMap {
+public class DynamicFractalHeightMap extends FractalHeightMap {
     private final HeightMap lacunarityControl;
     private final HeightMap persistenceControl;
 
-    public ComplexFractalHeightMap(double frequency, double amplitude, double lacunarity, HeightMap lacunarityControl, double persistence, HeightMap persistenceControl, Type type, int numberOfOctaves, long seed) {
+    public DynamicFractalHeightMap(double frequency, double amplitude, double lacunarity, HeightMap lacunarityControl, double persistence, HeightMap persistenceControl, Type type, int numberOfOctaves, long seed) {
         super(frequency, amplitude, lacunarity, persistence, type, numberOfOctaves, seed);
         this.lacunarityControl = lacunarityControl;
         this.persistenceControl = persistenceControl;
     }
 
-    public ComplexFractalHeightMap(double frequency, double amplitude, double lacunarity, HeightMap lacunarityControl, double persistence, HeightMap persistenceControl, Supplier<? extends Sampler<Double>> supplier, int numberOfOctaves) {
+    public DynamicFractalHeightMap(double frequency, double amplitude, double lacunarity, HeightMap lacunarityControl, double persistence, HeightMap persistenceControl, Supplier<? extends Sampler<Double>> supplier, int numberOfOctaves) {
         super(frequency, amplitude, lacunarity, persistence, supplier, numberOfOctaves);
         this.lacunarityControl = lacunarityControl;
         this.persistenceControl = persistenceControl;

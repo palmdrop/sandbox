@@ -2,7 +2,6 @@ package sketch.texture;
 
 import color.colors.Colors;
 import color.space.drawer.MapColorSpaceDrawer;
-import processing.core.PApplet;
 import processing.core.PGraphics;
 import render.AbstractDrawer;
 import sampling.Sampler;
@@ -12,10 +11,9 @@ import sampling.heightMap.modified.WarpedHeightMap;
 import sketch.Sketch;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import util.noise.ComplexFractalHeightMap;
-import util.noise.FractalHeightMap;
+import sampling.heightMap.modified.DynamicFractalHeightMap;
+import sampling.heightMap.modified.FractalHeightMap;
 import util.noise.generator.GNoise;
-import util.noise.type.CraterNoise;
 
 import java.util.function.Supplier;
 
@@ -42,7 +40,7 @@ public class OrganicPatternSketch extends AbstractDrawer implements Sketch {
 
             return h.toDistorted().domainWarp(
                     //GNoise.simplexNoise(0.005, 1.0, 1.0)
-                    new ComplexFractalHeightMap(0.002, 1.0,
+                    new DynamicFractalHeightMap(0.002, 1.0,
                             1.8, HeightMaps.constant(1.0),
                             0.5, HeightMaps.constant(1.0),
                             FractalHeightMap.Type.SIMPLEX, 8, (long) (Math.random() * 10000))

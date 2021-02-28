@@ -4,7 +4,7 @@ import sampling.Sampler;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sampling.heightMap.modified.WarpedHeightMap;
-import util.noise.ComplexFractalHeightMap;
+import sampling.heightMap.modified.DynamicFractalHeightMap;
 import util.noise.generator.GNoise;
 
 import java.util.function.Supplier;
@@ -19,7 +19,7 @@ public class SpirePattern extends AbstractPattern {
 
         HeightMap controller = heightMapSupplier.get();
 
-        HeightMap base1 = new ComplexFractalHeightMap(1.0,
+        HeightMap base1 = new DynamicFractalHeightMap(1.0,
                 1.0,
                 lacunarity,
                 HeightMaps.constant(1.0),

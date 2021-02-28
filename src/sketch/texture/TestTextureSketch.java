@@ -12,8 +12,8 @@ import sketch.Sketch;
 import util.geometry.Circle;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import util.noise.ComplexFractalHeightMap;
-import util.noise.FractalHeightMap;
+import sampling.heightMap.modified.DynamicFractalHeightMap;
+import sampling.heightMap.modified.FractalHeightMap;
 import util.noise.generator.GNoise;
 import util.noise.type.CellularNoise;
 import util.vector.Vector;
@@ -33,7 +33,7 @@ public class TestTextureSketch extends AbstractDrawer implements Sketch {
                 new Vector(0, 0);
 
         Sampler<Double> base1 =
-                new ComplexFractalHeightMap(0.003,
+                new DynamicFractalHeightMap(0.003,
                         1.0,
                         2.0,
                         HeightMaps.constant(1.0),
@@ -43,7 +43,7 @@ public class TestTextureSketch extends AbstractDrawer implements Sketch {
                         ).setNormalize(true);
 
         Sampler<Double> base2 =
-                new ComplexFractalHeightMap(0.003,
+                new DynamicFractalHeightMap(0.003,
                         1.0,
                         2.0,
                         HeightMaps.constant(1.0),
