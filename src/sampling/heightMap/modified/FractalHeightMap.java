@@ -35,9 +35,9 @@ public class FractalHeightMap implements HeightMap {
         return octaves;
     }
 
-    private static sampling.heightMap.HeightMap[] toOctaveArray(Type type, int numberOfOctaves, long seed) {
+    private static HeightMap[] toOctaveArray(Type type, int numberOfOctaves, long seed) {
         Random random = new Random(seed);
-        Supplier<sampling.heightMap.HeightMap> noiseSupplier = () -> {
+        Supplier<HeightMap> noiseSupplier = () -> {
             long s = random.nextLong();
             switch(type) {
                 case PERLIN: return new ImprovedPerlinNoise(s);
@@ -60,7 +60,7 @@ public class FractalHeightMap implements HeightMap {
         this(frequency, amplitude, lacunarity, persistence, toOctaveArray(noiseSupplier, numberOfOctaves));
     }
 
-    public FractalHeightMap(double frequency, double amplitude, double lacunarity, double persistence, sampling.heightMap.HeightMap... octaves) {
+    public FractalHeightMap(double frequency, double amplitude, double lacunarity, double persistence, HeightMap... octaves) {
         if(octaves == null || octaves.length == 0) throw new IllegalArgumentException();
 
         this.frequency = frequency;
