@@ -5,6 +5,7 @@ import processing.core.PImage;
 import sketch.Sketch;
 import sketch.organic.CthulhuSketch;
 import sketch.organic.CyberGrowthSketch;
+import sketch.organic.FlowFieldGrowthSketch;
 import util.geometry.Rectangle;
 
 public class ChaoticOrganicMain extends PApplet {
@@ -20,7 +21,10 @@ public class ChaoticOrganicMain extends PApplet {
 
     Rectangle bounds = new Rectangle(sketchWidth, sketchHeight);
     private PGraphics canvas;
-    private Sketch sketch;
+    private
+            //Sketch
+            FlowFieldGrowthSketch
+                sketch;
 
     @Override
     public void settings() {
@@ -39,7 +43,8 @@ public class ChaoticOrganicMain extends PApplet {
         sketch =
                 //new SegmentDrawSketch(bounds, this);
                 //new CthulhuSketch(bounds, 1 / renderQuality);
-                new CyberGrowthSketch(this, bounds);
+                //new CyberGrowthSketch(this, bounds);
+                new FlowFieldGrowthSketch(this, bounds);
                 //new FrequenciesSketch(bounds, this);
         sketch.draw(canvas, renderQuality);
     }
@@ -74,6 +79,9 @@ public class ChaoticOrganicMain extends PApplet {
             case 's': {
                 canvas.save("output/growth/" + System.nanoTime() + ".png");
                 System.out.println("Saved!");
+            }
+            case 'n': {
+                sketch.nextStage();
             }
         }
     }

@@ -4,12 +4,12 @@ import color.colors.Color;
 import color.colors.Colors;
 import color.fade.ColorFade;
 import color.fade.fades.RampFade;
+import flow.FlowField;
 import organic.Component;
 import organic.generation.points.area.HeightMapPointGenerator;
 import organic.generation.segments.SpaceFillTree;
 import organic.structure.segment.Segment;
 import organic.structure.segment.drawer.DirectionalPulsingSegmentDrawer;
-import organic.structure.segment.drawer.PulsingSegmentDrawer;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -17,20 +17,18 @@ import render.Drawer;
 import sampling.GraphicsHeightMap;
 import sampling.GraphicsSampler;
 import sampling.countour.Contours;
-import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sketch.Sketch;
 import util.ArrayAndListTools;
 import util.file.FileUtils;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
-import util.noise.generator.GNoise;
 import util.vector.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CyberGrowthSketch implements Sketch {
+public class FlowFieldGrowthSketch implements Sketch {
     // *** RENDERING FIELDS ***/
     private Rectangle bounds;
     private final PApplet p;
@@ -52,6 +50,7 @@ public class CyberGrowthSketch implements Sketch {
         RANDOM,
         LINEAR
     }
+
     private LayerMode layerMode = LayerMode.RANDOM;
 
     //TODO use start stop either for random or for iterating (but expand to allow more elements, see previous sketches)
@@ -70,11 +69,30 @@ public class CyberGrowthSketch implements Sketch {
     private final List<Drawer> drawers;
 
     private final ColorFade fade;
-    private ColorFade plantFade;
 
     private final HeightMapPointGenerator hp;
 
-    public CyberGrowthSketch(PApplet p, Rectangle bounds) {
+    // Stage
+    private enum Stage {
+        GROW,
+        FIELD,
+        FLOW,
+        DONE {
+            @Override
+            public Stage next() {
+                return DONE;
+            };
+        };
+
+        public Stage next() {
+            // No bounds checking required here, because the last instance overrides
+            return values()[ordinal() + 1];
+        }
+    };
+
+    private Stage stage;
+
+    public FlowFieldGrowthSketch(PApplet p, Rectangle bounds) {
         this.p = p;
 
         this.bounds = bounds;
@@ -108,17 +126,15 @@ public class CyberGrowthSketch implements Sketch {
                 //HeightMaps.circles(100, 100, 10, 10, new Vector(), 0.9),
                 (int)bounds.width, (int)bounds.height);
         fade = getFade();
+
+        stage = Stage.GROW;
+
         setup();
     }
 
     private ColorFade getFade() {
         Color c = Colors.random(Colors.HSB_SPACE, new double[]{0.0, 0.4, Math.pow(0.4, layers - layerCounter)}, new double[]{1.0, 0.6, Math.pow(0.9, layers - layerCounter)});
         return RampFade.fromColor(c, 0.7, 1.0, 0.8, RampFade.SatMode.DYNAMIC);
-    }
-
-    private ColorFade getSubFade() {
-        Color c = fade.get(1.0f - (float)layerCounter / layers);
-        return RampFade.fromColor(c, 0.4, 1.0, 0.8, RampFade.SatMode.DYNAMIC);
     }
 
     private double getValue(double[] value) {
@@ -131,7 +147,6 @@ public class CyberGrowthSketch implements Sketch {
 
     private void setup() {
         leaves = leafGenerator();
-        plantFade = getSubFade();
         treeBuilder = new SpaceFillTree<>(
                 getValue(treeMinDist),
                 getValue(treeMaxDist),
@@ -149,17 +164,12 @@ public class CyberGrowthSketch implements Sketch {
 
     private Drawer getDrawer(Segment<Component> root) {
         return
-                new PulsingSegmentDrawer(root, bounds,
-                        plantFade,
-                        //HeightMaps.stretch(GNoise.simplexNoise(0.01, 1.0, 2.0), r, r),
-                        //HeightMaps.constant(1.0),
+                new DirectionalPulsingSegmentDrawer(root, bounds,
                         hp.getHeightMap(),
-                        //hp.getHeightMap(),
                         0.0,
                         MathUtils.random(1, 5),
                         MathUtils.random(60, 120),
                         HeightMaps.pow(hp.getHeightMap(), HeightMaps.constant(6)),
-                        //HeightMaps.stretch(GNoise.simplexNoise(0.01, 1.0, 2.0), r, r),
                         1.0,
                         Contours.easing(MathUtils.EasingMode.EASE_OUT, 20)
                 );
@@ -168,14 +178,40 @@ public class CyberGrowthSketch implements Sketch {
     private int growCounter = 0;
     private int layerCounter = 0;
 
+    private PGraphics previousCanvas;
+
     @Override
     public PGraphics draw(PGraphics canvas, double frequency) {
         canvas.beginDraw();
-        //canvas.strokeCap(PApplet.PROJECT);
+
+        switch(stage) {
+            case GROW:
+                renderGrow(canvas);
+                break;
+            case FIELD:
+                renderFlowField(canvas);
+                break;
+            case FLOW:
+                renderParticles(canvas);
+                break;
+            case DONE:
+            default:
+                System.out.println("Done!");
+                return canvas;
+        }
+
+        previousCanvas = canvas;
+
+        canvas.endDraw();
+        return canvas;
+    }
+
+    private void renderGrow(PGraphics canvas) {
+
         if(layerCounter > layers) {
             canvas.image(buffer, 0, 0);
             canvas.endDraw();
-            return canvas;
+            return;
         }
 
         if(buffer == null) {
@@ -201,21 +237,43 @@ public class CyberGrowthSketch implements Sketch {
         canvas.background(0);
         canvas.image(buffer, 0, 0);
 
-        //for(int i = 0; i < roots.size(); i++) {
-            Drawer drawer = drawers.get(layerCounter);
-
-            canvas.stroke(255);
-            drawer.draw(canvas);
-        //}
+        Drawer drawer = drawers.get(layerCounter);
 
         canvas.stroke(255);
-        canvas.strokeWeight(5);
-        for(Vector p : leaves) {
-            //canvas.point((float)p.getX(), (float)p.getY());
+        drawer.draw(canvas);
+    }
+
+    private FlowField field = null;
+    private void renderFlowField(PGraphics canvas) {
+        if(field == null) {
+            System.out.println("Generating flow field");
+            PImage source = previousCanvas.get();
+            field = new FlowField(
+                    new GraphicsSampler(source),
+                    c -> Colors.hue(c) * Math.PI * 2,
+                    c -> Colors.brightness(c),
+                    previousCanvas.width,
+                    previousCanvas.height,
+                    1
+            );
+            System.out.println("Generated!");
         }
 
-        canvas.endDraw();
-        return canvas;
+        canvas.loadPixels();
+        for(int x = 0; x < Math.min(canvas.width, field.getWidth()); x++) for(int y = 0; y < Math.min(canvas.height, field.getHeight()); y++) {
+            Vector v = field.get(x, y);
+
+            double hue = v.angle() / (Math.PI * 2);
+            double sat = 1.0;
+            double bri = v.length();
+
+            canvas.pixels[x + y * canvas.width] =  Colors.HSB_SPACE.getRGB(hue, sat, bri);
+        }
+        canvas.updatePixels();
+    }
+
+    private void renderParticles(PGraphics canvas) {
+
     }
 
     @Override
@@ -226,5 +284,9 @@ public class CyberGrowthSketch implements Sketch {
     @Override
     public void setBounds(Rectangle bounds) {
         this.bounds = bounds;
+    }
+
+    public void nextStage() {
+        stage = stage.next();
     }
 }
