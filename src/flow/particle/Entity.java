@@ -60,9 +60,9 @@ public abstract class Entity {
     public void offsetVelocity(final ReadVector v) { vel.add(v); }
 
     //Getters and setters
-    public ReadVector getPos() { return pos; }
-    public ReadVector getVel() { return vel; }
-    public ReadVector getAcc() { return acc; }
+    public Vector getPos() { return pos; }
+    public Vector getVel() { return vel; }
+    public Vector getAcc() { return acc; }
 
     public double getX() { return getPos().getX(); }
     public double getY() { return getPos().getY(); }

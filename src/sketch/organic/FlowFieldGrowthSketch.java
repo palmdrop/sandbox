@@ -5,6 +5,9 @@ import color.colors.Colors;
 import color.fade.ColorFade;
 import color.fade.fades.RampFade;
 import flow.FlowField;
+import flow.ParticleSimulation;
+import flow.ParticleSimulationDrawer;
+import flow.particle.Particle;
 import organic.Component;
 import organic.generation.points.area.HeightMapPointGenerator;
 import organic.generation.segments.SpaceFillTree;
@@ -23,6 +26,7 @@ import util.ArrayAndListTools;
 import util.file.FileUtils;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
+import util.noise.generator.GNoise;
 import util.vector.Vector;
 
 import java.util.ArrayList;
@@ -43,8 +47,8 @@ public class FlowFieldGrowthSketch implements Sketch {
     private final int layers = 10;
 
 
-    private final double[] noiseFrequency = {0.0005, 0.002};
-    private final double[] noisePow = {4.0, 10.0};
+    private final double[] noiseFrequency = {0.0003, 0.002};
+    private final double[] noisePow = {3.0, 6.0};
 
     private enum LayerMode {
         RANDOM,
@@ -53,13 +57,15 @@ public class FlowFieldGrowthSketch implements Sketch {
 
     private LayerMode layerMode = LayerMode.RANDOM;
 
-    //TODO use start stop either for random or for iterating (but expand to allow more elements, see previous sketches)
-                                      //START, STOP (or MIN, MAX)
-    private final double[] treeMinDist     = {30, 100};
-    private final double[] treeMaxDist     = {150, 300};
-    private final double[] treeDynamics    = {0.2f, 0.7f};
-    private final double[] treeStepSize    = {3, 20};
+                                              //START, STOP (or MIN, MAX)
+    private final double[] treeMinDist     = {100, 150};
+    private final double[] treeMaxDist     = {300, 500};
+    private final double[] treeDynamics    = {0.4f, 0.7f};
+    private final double[] treeStepSize    = {5, 15};
     private final double[] treeDeviation   = {0.5f, 2};
+
+    private final double[] drawerMinWidth = {10.0, 17.0};
+    private final double[] drawerMaxWidth = {100.0, 200.0};
 
     // *** INTERNAL DATA *** //
     private List<Vector> leaves;
@@ -115,12 +121,12 @@ public class FlowFieldGrowthSketch implements Sketch {
                         c -> Colors.brightness(c)
                 ),
                 //HeightMaps.sin(0.005, 0.005, 1.0, 4.0).toDistorted().rotate(bounds.getCenter(), 1.0, 0.3),
-                //GNoise.simplexNoise(
-                        //getValue(noiseFrequency), 1.0, getValue(noisePow)),
-                        //.toDistorted().rotate(bounds.getCenter(), 10, 0.2),
-                        //.toDistorted().domainWarp(
+                /*GNoise.simplexNoise(
+                        getValue(noiseFrequency), 1.0, getValue(noisePow))
+                        //.toDistorted().rotate(bounds.getCenter(), 5, 0.2),
+                        .toDistorted().domainWarp(
                         //HeightMaps.sin(0.01, 0.01, 1.0, 1.0), 200),
-                                //GNoise.simplexNoise(0.001, 1.0, 1.0), 200),
+                                GNoise.simplexNoise(0.001, 1.0, 1.0), 200),*/
                 //HeightMaps.checkers(400, 400, 0, 1),
                 //HeightMaps.sin(0.002, 0.002, 1.0, 1.0),
                 //HeightMaps.circles(100, 100, 10, 10, new Vector(), 0.9),
@@ -167,9 +173,10 @@ public class FlowFieldGrowthSketch implements Sketch {
                 new DirectionalPulsingSegmentDrawer(root, bounds,
                         hp.getHeightMap(),
                         0.0,
-                        MathUtils.random(1, 5),
-                        MathUtils.random(60, 120),
-                        HeightMaps.pow(hp.getHeightMap(), HeightMaps.constant(6)),
+                        getValue(drawerMinWidth),
+                        getValue(drawerMaxWidth),
+                        //HeightMaps.pow(hp.getHeightMap(), HeightMaps.constant(Math.random() * 20)),
+                        GNoise.simplexNoise(3 * getValue(noiseFrequency), 1.0, getValue(noisePow)),
                         1.0,
                         Contours.easing(MathUtils.EasingMode.EASE_OUT, 20)
                 );
@@ -251,7 +258,7 @@ public class FlowFieldGrowthSketch implements Sketch {
             field = new FlowField(
                     new GraphicsSampler(source),
                     c -> Colors.hue(c) * Math.PI * 2,
-                    c -> Colors.brightness(c),
+                    c -> 1.0 * Colors.brightness(c),
                     previousCanvas.width,
                     previousCanvas.height,
                     1
@@ -272,8 +279,40 @@ public class FlowFieldGrowthSketch implements Sketch {
         canvas.updatePixels();
     }
 
-    private void renderParticles(PGraphics canvas) {
+    private ParticleSimulation particleSimulation = null;
+    private ParticleSimulationDrawer particleSimulationDrawer = null;
 
+    private void renderParticles(PGraphics canvas) {
+        if(particleSimulation == null) {
+            long lifeTime = 2 * 1000;
+            particleSimulation = new ParticleSimulation(
+                    field,
+                    () -> new Particle(hp.get()),
+                    1000,
+                    lifeTime,
+                    0.03,
+                    0.7
+            );
+            particleSimulationDrawer = new ParticleSimulationDrawer(
+                    particleSimulation,
+                    (c, p, l) -> {
+                        double time = 1.0 - (double)l / lifeTime;
+                        double bri = 0.5 * p.getVel().length();
+
+                        c.strokeWeight(5);
+                        c.stroke((float)(255.0 * bri), (float) (50 * time));
+                        c.line((float)p.getPreviousPosition().getX(), (float)p.getPreviousPosition().getY(), (float)p.getX(), (float)p.getY());
+                    },
+                    bounds
+            );
+            canvas.background(0);
+        }
+
+        //canvas.background(0);
+        canvas.strokeWeight(2);
+
+        particleSimulationDrawer.draw(canvas);
+        particleSimulation.update();
     }
 
     @Override

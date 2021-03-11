@@ -12,6 +12,8 @@ public class Particle extends Entity {
 
     private double elasticity;
 
+    private Vector previousPosition;
+
     //Init
     public Particle() {
         this(new Vector());
@@ -44,6 +46,8 @@ public class Particle extends Entity {
         this.radius = radius;
         this.mass = mass;
         elasticity = 1;
+
+        previousPosition = pos.copy();
     }
 
     //Functionality
@@ -137,6 +141,8 @@ public class Particle extends Entity {
     //Running
     @Override
     public void updateA(double timeStep) {
+        previousPosition = pos.copy();
+
         vel.add(Vector.mult(acc, timeStep/2));
         if(maxVel != -1) vel.limit(maxVel);
         pos.add(Vector.mult(vel, timeStep));
@@ -176,4 +182,8 @@ public class Particle extends Entity {
 
     public double getElasticity() { return elasticity; }
     public void setElasticity(double elasticity) { this.elasticity = elasticity; }
+
+    public Vector getPreviousPosition() {
+        return previousPosition;
+    }
 }

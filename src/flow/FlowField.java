@@ -36,7 +36,7 @@ public class FlowField implements Sampler<Vector> {
 
     @Override
     public Vector get(Vector point) {
-        if(point.getX() < 0 || point.getX() >= width || point.getY() < 0 || point.getY() >= height) {
+        if(!isInside(point)) {
             throw new IllegalArgumentException("Point outside bounds");
         }
 
@@ -44,6 +44,10 @@ public class FlowField implements Sampler<Vector> {
         int y = (int) MathUtils.map(point.getY(), 0, height, 0, fieldHeight);
 
         return field[x + y * fieldWidth];
+    }
+
+    public boolean isInside(Vector point) {
+        return point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height;
     }
 
     public double getWidth() {
