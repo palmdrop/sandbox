@@ -7,9 +7,10 @@ import util.vector.Vector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ParticleSimulation {
-    private class ParticleData {
+    private static class ParticleData {
         final Particle p;
         final long spawnTime;
 
@@ -26,7 +27,7 @@ public class ParticleSimulation {
     private final double randomForce;
 
     private final Supplier<Particle> particleSupplier;
-    private final List<ParticleData> particles;
+    private List<ParticleData> particles;
 
     public ParticleSimulation(FlowField flowField, Supplier<Particle> particleSupplier, int numberOfParticles, long lifeTime, double friction, double randomForce) {
         this.flowField = flowField;
@@ -57,25 +58,29 @@ public class ParticleSimulation {
     }
 
     public void update() {
-        for(int i = 0; i < numberOfParticles; i++) {
-            ParticleData pd = particles.get(i);
-            Particle p = pd.p;
-            long spawnTime = pd.spawnTime;
+        particles = particles.parallelStream()
+                .map(this::update)
+                .collect(Collectors.toList());
+    }
 
-            if(!flowField.isInside(p.getPos())
-            || (lifeTime != -1 && System.currentTimeMillis() - spawnTime >= lifeTime)
-            || p.getVel().isZero()) {
-                particles.set(i, createParticle());
-                continue;
-            }
+    private ParticleData update(ParticleData pd) {
+        Particle p = pd.p;
+        long spawnTime = pd.spawnTime;
 
-            Vector random = Vector.randomWithLength(MathUtils.random(randomForce));
-
-            p.addForce(flowField.get(p.getPos()));
-            p.addForce(random);
-            p.applyFriction(friction);
-            p.update();
+        if(!flowField.isInside(p.getPos())
+                || (lifeTime != -1 && System.currentTimeMillis() - spawnTime >= lifeTime)
+                || p.getVel().isZero()) {
+            return createParticle();
         }
+
+        Vector random = Vector.randomWithLength(MathUtils.random(randomForce));
+
+        p.addForce(flowField.get(p.getPos()));
+        p.addForce(random);
+        p.applyFriction(friction);
+        p.update();
+
+        return pd;
     }
 
 
@@ -86,6 +91,7 @@ public class ParticleSimulation {
     public Particle getParticle(int index) {
         return particles.get(index).p;
     }
+
     public long getParticleLifeTime(int index) {
         return System.currentTimeMillis() - particles.get(index).spawnTime;
     }

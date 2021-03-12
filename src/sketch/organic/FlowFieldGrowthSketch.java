@@ -27,6 +27,7 @@ import util.file.FileUtils;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
 import util.noise.generator.GNoise;
+import util.vector.ReadVector;
 import util.vector.Vector;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class FlowFieldGrowthSketch implements Sketch {
     private final double[] treeDeviation   = {0.5f, 2};
 
     private final double[] drawerMinWidth = {10.0, 17.0};
-    private final double[] drawerMaxWidth = {100.0, 200.0};
+    private final double[] drawerMaxWidth = {150.0, 400.0};
 
     // *** INTERNAL DATA *** //
     private List<Vector> leaves;
@@ -218,6 +219,7 @@ public class FlowFieldGrowthSketch implements Sketch {
         if(layerCounter > layers) {
             canvas.image(buffer, 0, 0);
             canvas.endDraw();
+            stage = stage.next();
             return;
         }
 
@@ -268,7 +270,7 @@ public class FlowFieldGrowthSketch implements Sketch {
 
         canvas.loadPixels();
         for(int x = 0; x < Math.min(canvas.width, field.getWidth()); x++) for(int y = 0; y < Math.min(canvas.height, field.getHeight()); y++) {
-            Vector v = field.get(x, y);
+            ReadVector v = field.get(x, y);
 
             double hue = v.angle() / (Math.PI * 2);
             double sat = 1.0;
@@ -277,6 +279,8 @@ public class FlowFieldGrowthSketch implements Sketch {
             canvas.pixels[x + y * canvas.width] =  Colors.HSB_SPACE.getRGB(hue, sat, bri);
         }
         canvas.updatePixels();
+
+        stage = stage.next();
     }
 
     private ParticleSimulation particleSimulation = null;
@@ -288,7 +292,7 @@ public class FlowFieldGrowthSketch implements Sketch {
             particleSimulation = new ParticleSimulation(
                     field,
                     () -> new Particle(hp.get()),
-                    1000,
+                    10000,
                     lifeTime,
                     0.03,
                     0.7

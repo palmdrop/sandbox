@@ -2,11 +2,12 @@ package flow;
 
 import sampling.Sampler;
 import util.math.MathUtils;
+import util.vector.ReadVector;
 import util.vector.Vector;
 
 import java.util.function.Function;
 
-public class FlowField implements Sampler<Vector> {
+public class FlowField implements Sampler<ReadVector> {
     private double width, height;
 
     private final Vector[] field;
@@ -35,7 +36,7 @@ public class FlowField implements Sampler<Vector> {
     }
 
     @Override
-    public Vector get(Vector point) {
+    public ReadVector get(Vector point) {
         if(!isInside(point)) {
             throw new IllegalArgumentException("Point outside bounds");
         }
