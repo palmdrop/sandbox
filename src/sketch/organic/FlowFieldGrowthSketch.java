@@ -49,7 +49,7 @@ public class FlowFieldGrowthSketch implements Sketch {
 
 
     private final double[] noiseFrequency = {0.0003, 0.002};
-    private final double[] noisePow = {3.0, 6.0};
+    private final double[] noisePow = {1.0, 3.0};
 
     private enum LayerMode {
         RANDOM,
@@ -65,8 +65,8 @@ public class FlowFieldGrowthSketch implements Sketch {
     private final double[] treeStepSize    = {5, 15};
     private final double[] treeDeviation   = {0.5f, 2};
 
-    private final double[] drawerMinWidth = {10.0, 17.0};
-    private final double[] drawerMaxWidth = {150.0, 400.0};
+    private final double[] drawerMinWidth = {5.0, 10.0};
+    private final double[] drawerMaxWidth = {70.0, 350.0};
 
     // *** INTERNAL DATA *** //
     private List<Vector> leaves;
@@ -122,15 +122,15 @@ public class FlowFieldGrowthSketch implements Sketch {
                         c -> Colors.brightness(c)
                 ),
                 //HeightMaps.sin(0.005, 0.005, 1.0, 4.0).toDistorted().rotate(bounds.getCenter(), 1.0, 0.3),
-                /*GNoise.simplexNoise(
-                        getValue(noiseFrequency), 1.0, getValue(noisePow))
+                //GNoise.simplexNoise(
+                        //getValue(noiseFrequency), 1.0, getValue(noisePow)),
                         //.toDistorted().rotate(bounds.getCenter(), 5, 0.2),
-                        .toDistorted().domainWarp(
+                        //.toDistorted().domainWarp(
                         //HeightMaps.sin(0.01, 0.01, 1.0, 1.0), 200),
-                                GNoise.simplexNoise(0.001, 1.0, 1.0), 200),*/
-                //HeightMaps.checkers(400, 400, 0, 1),
-                //HeightMaps.sin(0.002, 0.002, 1.0, 1.0),
-                //HeightMaps.circles(100, 100, 10, 10, new Vector(), 0.9),
+                                //GNoise.simplexNoise(0.001, 1.0, 1.0), 200),
+                //HeightMaps.checkers(400, 400, 0, 1), 200),
+                //HeightMaps.sin(0.002, 0.002, 1.0, 1.0), 200),
+                    //HeightMaps.circles(500, 500, 10, 10, new Vector(), 0.9), 200),
                 (int)bounds.width, (int)bounds.height);
         fade = getFade();
 
@@ -303,7 +303,7 @@ public class FlowFieldGrowthSketch implements Sketch {
                         double time = 1.0 - (double)l / lifeTime;
                         double bri = 0.5 * p.getVel().length();
 
-                        c.strokeWeight(5);
+                        c.strokeWeight(2);
                         c.stroke((float)(255.0 * bri), (float) (50 * time));
                         c.line((float)p.getPreviousPosition().getX(), (float)p.getPreviousPosition().getY(), (float)p.getX(), (float)p.getY());
                     },
