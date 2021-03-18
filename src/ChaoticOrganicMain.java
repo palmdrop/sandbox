@@ -46,15 +46,15 @@ public class ChaoticOrganicMain extends PApplet {
                 //new CyberGrowthSketch(this, bounds);
                 new FlowFieldGrowthSketch(this, bounds);
                 //new FrequenciesSketch(bounds, this);
-        sketch.draw(canvas, renderQuality);
+        //sketch.draw(canvas, renderQuality);
     }
 
     @Override
     public void draw() {
 
         for(int i = 0; i < 1; i++) {
-            sketch.draw(canvas, 1);
-            //sketch.draw(canvas, 1 / renderQuality);
+            //sketch.draw(canvas, 1);
+            sketch.draw(canvas, 1 / renderQuality);
         }
 
         PImage toRender = canvas.copy();

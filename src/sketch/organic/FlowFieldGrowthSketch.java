@@ -9,7 +9,9 @@ import flow.ParticleSimulation;
 import flow.ParticleSimulationDrawer;
 import flow.particle.Particle;
 import organic.Component;
+import organic.generation.growth.LayeredGrowth;
 import organic.generation.points.area.HeightMapPointGenerator;
+import organic.generation.segments.DynamicSpaceFillTree;
 import organic.generation.segments.SpaceFillTree;
 import organic.structure.segment.Segment;
 import organic.structure.segment.drawer.DirectionalPulsingSegmentDrawer;
@@ -20,6 +22,7 @@ import render.Drawer;
 import sampling.GraphicsHeightMap;
 import sampling.GraphicsSampler;
 import sampling.countour.Contours;
+import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
 import sketch.Sketch;
 import util.ArrayAndListTools;
@@ -32,6 +35,8 @@ import util.vector.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class FlowFieldGrowthSketch implements Sketch {
     // *** RENDERING FIELDS ***/
@@ -40,39 +45,24 @@ public class FlowFieldGrowthSketch implements Sketch {
     private PGraphics buffer;
 
     // *** SETTINGS *** //
-
     private final int iterations = 800;
     private final int numberOfLeaves = 8000;
-
-    private double startAngle = Math.random() * 2 * Math.PI;
     private final int layers = 10;
-
 
     private final double[] noiseFrequency = {0.0003, 0.002};
     private final double[] noisePow = {1.0, 3.0};
 
-    private enum LayerMode {
-        RANDOM,
-        LINEAR
-    }
-
-    private LayerMode layerMode = LayerMode.RANDOM;
-
                                               //START, STOP (or MIN, MAX)
-    private final double[] treeMinDist     = {100, 150};
-    private final double[] treeMaxDist     = {300, 500};
-    private final double[] treeDynamics    = {0.4f, 0.7f};
+    private final double[] treeMinDist     = {5, 50};
+    private final double[] treeMaxDist     = {100, 500};
+    private final double[] treeDynamics    = {0.4f, 0.8f};
     private final double[] treeStepSize    = {5, 15};
     private final double[] treeDeviation   = {0.5f, 2};
 
-    private final double[] drawerMinWidth = {5.0, 10.0};
-    private final double[] drawerMaxWidth = {70.0, 350.0};
+    private final double[] drawerMinWidth = {2.0, 15.0};
+    private final double[] drawerMaxWidth = {50.0, 300.0};
 
     // *** INTERNAL DATA *** //
-    private List<Vector> leaves;
-    private SpaceFillTree<Component> treeBuilder;
-
-    private final List<Segment<Component>> roots;
     private final List<Drawer> drawers;
 
     private final ColorFade fade;
@@ -103,24 +93,27 @@ public class FlowFieldGrowthSketch implements Sketch {
         this.p = p;
 
         this.bounds = bounds;
-        roots = new ArrayList<>(layers);
         drawers = new ArrayList<>(layers);
 
-
-        String path = ArrayAndListTools.randomElement(FileUtils.listFiles(
-                "output/",
-                //"sourceImages/collected",
+        String path =
+                ArrayAndListTools.randomElement(FileUtils.listFiles(
+                //"output/",
+                //"sourceImages/",
+                "/home/xan/usr/pictures/dada/",
                 new String[]{".png", ".jpg", ".jpeg"})).getPath();
         PImage img = p.loadImage(path);
 
         System.out.println(path);
 
+        double scaleX = img.width / bounds.width;
+        double scaleY = img.height / bounds.height;
+
         hp = new HeightMapPointGenerator(
-                new GraphicsHeightMap(
+                HeightMaps.stretch(new GraphicsHeightMap(
                         img,
                         GraphicsSampler.WrapMode.MIRROR_WRAP,
                         c -> Colors.brightness(c)
-                ),
+                ), scaleX, scaleY),
                 //HeightMaps.sin(0.005, 0.005, 1.0, 4.0).toDistorted().rotate(bounds.getCenter(), 1.0, 0.3),
                 //GNoise.simplexNoise(
                         //getValue(noiseFrequency), 1.0, getValue(noisePow)),
@@ -140,34 +133,38 @@ public class FlowFieldGrowthSketch implements Sketch {
     }
 
     private ColorFade getFade() {
-        Color c = Colors.random(Colors.HSB_SPACE, new double[]{0.0, 0.4, Math.pow(0.4, layers - layerCounter)}, new double[]{1.0, 0.6, Math.pow(0.9, layers - layerCounter)});
+        //Color c = Colors.random(Colors.HSB_SPACE, new double[]{0.0, 0.4, Math.pow(0.4, layers - layerCounter)}, new double[]{1.0, 0.6, Math.pow(0.9, layers - layerCounter)});
+        Color c = Colors.random();
         return RampFade.fromColor(c, 0.7, 1.0, 0.8, RampFade.SatMode.DYNAMIC);
     }
 
     private double getValue(double[] value) {
-       if(layerMode == LayerMode.RANDOM) {
-           return MathUtils.random(value[0], value[1]);
-       } else {
-           return MathUtils.map(layerCounter, 0, layers - 1, value[0], value[1]);
-       }
+        return MathUtils.random(value[0], value[1]);
     }
 
     private void setup() {
-        leaves = leafGenerator();
-        treeBuilder = new SpaceFillTree<>(
+        /*Supplier<SpaceFillTree<Component>> treeGenerator = () -> new SpaceFillTree<>(
                 getValue(treeMinDist),
                 getValue(treeMaxDist),
                 getValue(treeDynamics),
                 getValue(treeStepSize),
-                getValue(treeDeviation));
-        roots.add(treeBuilder.generate(ArrayAndListTools.randomElement(leaves), startAngle, leaves, 1));
-        drawers.add(getDrawer(roots.get(roots.size() - 1)));
-    }
+                getValue(treeDeviation));*/
 
-    private List<Vector> leafGenerator() {
-        return hp.generate(numberOfLeaves);
-    }
+        HeightMap h = GNoise.simplexNoise(0.01, 1.0, 1.0);
+                //hp.getHeightMap();
+        Supplier<DynamicSpaceFillTree<Component>> treeGenerator = () -> new DynamicSpaceFillTree<>(
+                treeMinDist, h,
+                treeMaxDist, h,
+                treeDynamics, h,
+                treeStepSize, h,
+                treeDeviation, h);
 
+        LayeredGrowth layeredGrowth = new LayeredGrowth(hp, numberOfLeaves, layers, iterations, treeGenerator);
+
+        for(int i = 0; i < layeredGrowth.getNumberOfLayers(); i++) {
+            drawers.add(getDrawer(layeredGrowth.getRoot(i)));
+        }
+    }
 
     private Drawer getDrawer(Segment<Component> root) {
         return
@@ -177,14 +174,12 @@ public class FlowFieldGrowthSketch implements Sketch {
                         getValue(drawerMinWidth),
                         getValue(drawerMaxWidth),
                         //HeightMaps.pow(hp.getHeightMap(), HeightMaps.constant(Math.random() * 20)),
-                        GNoise.simplexNoise(3 * getValue(noiseFrequency), 1.0, getValue(noisePow)),
+                        //GNoise.simplexNoise(10 * getValue(noiseFrequency), 1.0, getValue(noisePow)),
+                        hp.getHeightMap(),
                         1.0,
-                        Contours.easing(MathUtils.EasingMode.EASE_OUT, 20)
+                        Contours.easing(MathUtils.EasingMode.EASE_OUT, 13)
                 );
     }
-
-    private int growCounter = 0;
-    private int layerCounter = 0;
 
     private PGraphics previousCanvas;
 
@@ -215,41 +210,17 @@ public class FlowFieldGrowthSketch implements Sketch {
     }
 
     private void renderGrow(PGraphics canvas) {
-
-        if(layerCounter > layers) {
-            canvas.image(buffer, 0, 0);
-            canvas.endDraw();
-            stage = stage.next();
-            return;
-        }
-
         if(buffer == null) {
             buffer = p.createGraphics(canvas.width, canvas.height);
         }
-
-        for(int i = 0; i < 20; i++) {
-            treeBuilder.grow();
-            growCounter++;
-        }
-
-        if(growCounter >= iterations || treeBuilder.isExhausted()) {
-            setup();
-            growCounter = 0;
-            layerCounter++;
-            System.out.println("Layer " + layerCounter);
-
-            buffer.beginDraw();
-            buffer.image(canvas, 0, 0);
-            buffer.endDraw();
-        }
-
         canvas.background(0);
-        canvas.image(buffer, 0, 0);
 
-        Drawer drawer = drawers.get(layerCounter);
+        drawers.forEach(drawer -> {
+            canvas.stroke(255);
+            drawer.draw(canvas);
+        });
 
-        canvas.stroke(255);
-        drawer.draw(canvas);
+        stage = stage.next();
     }
 
     private FlowField field = null;
@@ -303,7 +274,7 @@ public class FlowFieldGrowthSketch implements Sketch {
                         double time = 1.0 - (double)l / lifeTime;
                         double bri = 0.5 * p.getVel().length();
 
-                        c.strokeWeight(2);
+                        c.strokeWeight(1);
                         c.stroke((float)(255.0 * bri), (float) (50 * time));
                         c.line((float)p.getPreviousPosition().getX(), (float)p.getPreviousPosition().getY(), (float)p.getX(), (float)p.getY());
                     },
