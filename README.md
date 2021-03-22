@@ -52,6 +52,7 @@ Here are a few sample images:
 ![Mess](/output/example-mess1.png)
 ![Text](/output/example-text1.png)
 ![Mix](/output/example-imagemix1.png)
+![Weave](/output/example-weave1.jpg)
 
 More can be found under `output`.
 
