@@ -1,9 +1,6 @@
 package sketch.organic;
 
-import color.colors.Color;
 import color.colors.Colors;
-import color.fade.ColorFade;
-import color.fade.fades.RampFade;
 import flow.FlowField;
 import flow.ParticleSimulation;
 import flow.ParticleSimulationDrawer;
@@ -12,65 +9,69 @@ import organic.Component;
 import organic.generation.growth.LayeredGrowth;
 import organic.generation.points.area.HeightMapPointGenerator;
 import organic.generation.segments.DynamicSpaceFillTree;
-import organic.generation.segments.SpaceFillTree;
 import organic.structure.segment.Segment;
 import organic.structure.segment.drawer.DirectionalPulsingSegmentDrawer;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import render.Drawer;
-import sampling.GraphicsHeightMap;
+import render.heightMap.FadingHeightMapDrawer;
 import sampling.GraphicsSampler;
 import sampling.countour.Contours;
 import sampling.heightMap.HeightMap;
 import sampling.heightMap.HeightMaps;
+import sampling.heightMap.modified.DynamicFractalHeightMap;
+import sampling.heightMap.modified.FractalHeightMap;
 import sketch.Sketch;
-import util.ArrayAndListTools;
-import util.file.FileUtils;
 import util.geometry.Rectangle;
 import util.math.MathUtils;
 import util.noise.generator.GNoise;
 import util.vector.ReadVector;
-import util.vector.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class FlowFieldGrowthSketch implements Sketch {
-    // *** RENDERING FIELDS ***/
-    private Rectangle bounds;
+    // *** GENERAL ***/
     private final PApplet p;
-    private PGraphics buffer;
+    private Rectangle bounds;
 
     // *** SETTINGS *** //
     private final int iterations = 800;
     private final int numberOfLeaves = 8000;
     private final int layers = 10;
 
-    private final double[] noiseFrequency = {0.0003, 0.002};
+    private final double[] noiseFrequency = {0.001, 0.004};
     private final double[] noisePow = {1.0, 3.0};
 
                                               //START, STOP (or MIN, MAX)
-    private final double[] treeMinDist     = {5, 50};
-    private final double[] treeMaxDist     = {100, 500};
-    private final double[] treeDynamics    = {0.4f, 0.8f};
-    private final double[] treeStepSize    = {5, 15};
+    private final double[] treeMinDist     = {30, 60, 100};
+    private final double[] treeMaxDist     = {120, 80, 50};
+    private final double[] treeDynamics    = {0.4f, 0.8f, 1.0f};
+    private final double[] treeStepSize    = {10, 5, 3};
     private final double[] treeDeviation   = {0.5f, 2};
 
-    private final double[] drawerMinWidth = {2.0, 15.0};
-    private final double[] drawerMaxWidth = {50.0, 300.0};
+    private final double[] drawerMinWidth = {1.0, 5.0};
+    private final double[] drawerMaxWidth = {150.0, 750.0};
+
+    //HeightMaps.pow(new FractalHeightMap(1, 1.0, FractalHeightMap.Type.SIMPLEX, 8).setNormalize(true), HeightMaps.constant(2)),
+    private final HeightMap
+            minControl = GNoise.simplexNoise(MathUtils.random(noiseFrequency), 1.0, 2.0),
+            maxControl = GNoise.simplexNoise(MathUtils.random(noiseFrequency), 1.0, 2.0),
+            dynamicsControl = GNoise.simplexNoise(MathUtils.random(noiseFrequency), 1.0, 2.0),
+            stepSizeControls = GNoise.simplexNoise(MathUtils.random(noiseFrequency), 1.0, 2.0),
+            deviationControls = GNoise.simplexNoise(MathUtils.random(noiseFrequency), 1.0, 2.0);
 
     // *** INTERNAL DATA *** //
     private final List<Drawer> drawers;
-
-    private final ColorFade fade;
-
-    private final HeightMapPointGenerator hp;
+    private HeightMap baseHeightmap;
+    private HeightMapPointGenerator hp;
 
     // Stage
     private enum Stage {
+        NONE,
+        HEIGHTMAP,
         GROW,
         FIELD,
         FLOW,
@@ -91,73 +92,97 @@ public class FlowFieldGrowthSketch implements Sketch {
 
     public FlowFieldGrowthSketch(PApplet p, Rectangle bounds) {
         this.p = p;
-
         this.bounds = bounds;
         drawers = new ArrayList<>(layers);
 
-        String path =
+        stage = Stage.values()[0];
+
+        progress();
+    }
+
+    public void progress() {
+        stage = stage.next();
+        generateCurrent();
+    }
+
+    public void generateCurrent() {
+        switch (stage) {
+            case NONE:
+                break;
+            case HEIGHTMAP:
+                System.out.println("Generating heightmap");
+                generateHeightmap();
+                System.out.println("[DONE] Generating heightmap");
+                break;
+            case GROW:
+                System.out.println("Generating growth");
+                generateGrowth();
+                System.out.println("[DONE] Generating growth");
+                break;
+            case FIELD:
+                System.out.println("Generating flow field");
+                generateFlowField();
+                System.out.println("[DONE] Generating flow field");
+                break;
+            case FLOW:
+                System.out.println("Generating particles system");
+                generateParticleSystem();
+                System.out.println("[DONE] Generating particles system");
+                break;
+            case DONE:
+                break;
+        }
+    }
+
+    private void generateHeightmap() {
+        /*String path =
                 ArrayAndListTools.randomElement(FileUtils.listFiles(
-                //"output/",
-                //"sourceImages/",
-                "/home/xan/usr/pictures/dada/",
-                new String[]{".png", ".jpg", ".jpeg"})).getPath();
+                        //"output/",
+                        //"sourceImages/",
+                        "/home/xan/usr/pictures/dada/",
+                        new String[]{".png", ".jpg", ".jpeg"})).getPath();
         PImage img = p.loadImage(path);
 
         System.out.println(path);
 
         double scaleX = img.width / bounds.width;
-        double scaleY = img.height / bounds.height;
+        double scaleY = img.height / bounds.height;*/
 
-        hp = new HeightMapPointGenerator(
-                HeightMaps.stretch(new GraphicsHeightMap(
-                        img,
-                        GraphicsSampler.WrapMode.MIRROR_WRAP,
-                        c -> Colors.brightness(c)
-                ), scaleX, scaleY),
-                //HeightMaps.sin(0.005, 0.005, 1.0, 4.0).toDistorted().rotate(bounds.getCenter(), 1.0, 0.3),
-                //GNoise.simplexNoise(
-                        //getValue(noiseFrequency), 1.0, getValue(noisePow)),
-                        //.toDistorted().rotate(bounds.getCenter(), 5, 0.2),
-                        //.toDistorted().domainWarp(
-                        //HeightMaps.sin(0.01, 0.01, 1.0, 1.0), 200),
-                                //GNoise.simplexNoise(0.001, 1.0, 1.0), 200),
-                //HeightMaps.checkers(400, 400, 0, 1), 200),
-                //HeightMaps.sin(0.002, 0.002, 1.0, 1.0), 200),
-                    //HeightMaps.circles(500, 500, 10, 10, new Vector(), 0.9), 200),
-                (int)bounds.width, (int)bounds.height);
-        fade = getFade();
+        baseHeightmap =
+                minControl.toDistorted().domainWarp(maxControl, dynamicsControl, 100)
+                .domainWarp(deviationControls, minControl, 200);
+                //.toModded().addMod(2)
+                //new SpirePattern(MathUtils.random(noiseFrequency), 0.2, 0.8, 1.8, 0.65, 100, 1);
 
-        stage = Stage.GROW;
 
-        setup();
+                //GNoise.simplexNoise(0.01, 1.0, 1.0);
+        hp = new HeightMapPointGenerator(baseHeightmap, (int)bounds.width, (int)bounds.height);
     }
 
-    private ColorFade getFade() {
-        //Color c = Colors.random(Colors.HSB_SPACE, new double[]{0.0, 0.4, Math.pow(0.4, layers - layerCounter)}, new double[]{1.0, 0.6, Math.pow(0.9, layers - layerCounter)});
-        Color c = Colors.random();
-        return RampFade.fromColor(c, 0.7, 1.0, 0.8, RampFade.SatMode.DYNAMIC);
+    private Drawer getDrawer(Segment<Component> root) {
+        return
+                new DirectionalPulsingSegmentDrawer(root, bounds,
+                        //TODO vary use of bri controller, swap with width controller?!!?!?!? but use offset/variations for each layer?
+                        hp.getHeightMap(),
+                        0.0,
+                        MathUtils.random(drawerMinWidth),
+                        MathUtils.random(drawerMaxWidth),
+                        HeightMaps.pow(new FractalHeightMap(0.003, 1.0, FractalHeightMap.Type.SIMPLEX, 8).setNormalize(true), HeightMaps.constant(3)),
+                        //HeightMaps.constant(1.0),
+                        1.0,
+                        Contours.easing(MathUtils.EasingMode.EASE_OUT, 3)
+                );
     }
-
-    private double getValue(double[] value) {
-        return MathUtils.random(value[0], value[1]);
-    }
-
-    private void setup() {
-        /*Supplier<SpaceFillTree<Component>> treeGenerator = () -> new SpaceFillTree<>(
-                getValue(treeMinDist),
-                getValue(treeMaxDist),
-                getValue(treeDynamics),
-                getValue(treeStepSize),
-                getValue(treeDeviation));*/
-
-        HeightMap h = GNoise.simplexNoise(0.01, 1.0, 1.0);
+    private void generateGrowth() {
+        //HeightMap h =
+        //GNoise.simplexNoise(0.01, 1.0, 1.0);
                 //hp.getHeightMap();
         Supplier<DynamicSpaceFillTree<Component>> treeGenerator = () -> new DynamicSpaceFillTree<>(
-                treeMinDist, h,
-                treeMaxDist, h,
-                treeDynamics, h,
-                treeStepSize, h,
-                treeDeviation, h);
+                treeMinDist, minControl,
+                treeMaxDist, maxControl,
+                treeDynamics, dynamicsControl,
+                treeStepSize, stepSizeControls,
+                treeDeviation, deviationControls);
 
         LayeredGrowth layeredGrowth = new LayeredGrowth(hp, numberOfLeaves, layers, iterations, treeGenerator);
 
@@ -166,41 +191,75 @@ public class FlowFieldGrowthSketch implements Sketch {
         }
     }
 
-    private Drawer getDrawer(Segment<Component> root) {
-        return
-                new DirectionalPulsingSegmentDrawer(root, bounds,
-                        hp.getHeightMap(),
-                        0.0,
-                        getValue(drawerMinWidth),
-                        getValue(drawerMaxWidth),
-                        //HeightMaps.pow(hp.getHeightMap(), HeightMaps.constant(Math.random() * 20)),
-                        //GNoise.simplexNoise(10 * getValue(noiseFrequency), 1.0, getValue(noisePow)),
-                        hp.getHeightMap(),
-                        1.0,
-                        Contours.easing(MathUtils.EasingMode.EASE_OUT, 13)
-                );
+    private FlowField field = null;
+    private void generateFlowField() {
+        PImage source = previousCanvas.get();
+        field = new FlowField(
+                new GraphicsSampler(source),
+                c -> Colors.hue(c) * Math.PI * 2,
+                c -> 1.0 * Colors.brightness(c),
+                previousCanvas.width,
+                previousCanvas.height,
+                1
+        );
+
+        progress();
     }
+
+    private ParticleSimulation particleSimulation = null;
+    private ParticleSimulationDrawer particleSimulationDrawer = null;
+
+    private void generateParticleSystem() {
+        long lifeTime = 2 * 1000;
+        particleSimulation = new ParticleSimulation(
+                field,
+                () -> new Particle(hp.get()),
+                10000,
+                lifeTime,
+                0.03,
+                0.7
+        );
+        particleSimulationDrawer = new ParticleSimulationDrawer(
+                particleSimulation,
+                (c, p, l) -> {
+                    double time = 1.0 - (double)l / lifeTime;
+                    double bri = 0.5 * p.getVel().length();
+
+                    c.strokeWeight(1);
+                    c.stroke((float)(255.0 * bri), (float) (50 * time));
+                    c.line((float)p.getPreviousPosition().getX(), (float)p.getPreviousPosition().getY(), (float)p.getX(), (float)p.getY());
+                },
+                bounds
+        );
+
+        drawBackground = true;
+    }
+
+
 
     private PGraphics previousCanvas;
 
+    private boolean drawBackground = false;
     @Override
     public PGraphics draw(PGraphics canvas, double frequency) {
         canvas.beginDraw();
+        if(drawBackground) canvas.background(0);
 
         switch(stage) {
+            case HEIGHTMAP:
+                renderHeightmap(canvas);
+                break;
             case GROW:
                 renderGrow(canvas);
                 break;
             case FIELD:
-                renderFlowField(canvas);
+                //renderFlowField(canvas);
                 break;
             case FLOW:
                 renderParticles(canvas);
                 break;
-            case DONE:
             default:
-                System.out.println("Done!");
-                return canvas;
+                break;
         }
 
         previousCanvas = canvas;
@@ -209,36 +268,21 @@ public class FlowFieldGrowthSketch implements Sketch {
         return canvas;
     }
 
+    private void renderHeightmap(PGraphics canvas) {
+        FadingHeightMapDrawer drawer = new FadingHeightMapDrawer(hp.getHeightMap(), 0, 0);
+        drawer.draw(canvas);
+    }
+
     private void renderGrow(PGraphics canvas) {
-        if(buffer == null) {
-            buffer = p.createGraphics(canvas.width, canvas.height);
-        }
         canvas.background(0);
 
         drawers.forEach(drawer -> {
             canvas.stroke(255);
             drawer.draw(canvas);
         });
-
-        stage = stage.next();
     }
 
-    private FlowField field = null;
     private void renderFlowField(PGraphics canvas) {
-        if(field == null) {
-            System.out.println("Generating flow field");
-            PImage source = previousCanvas.get();
-            field = new FlowField(
-                    new GraphicsSampler(source),
-                    c -> Colors.hue(c) * Math.PI * 2,
-                    c -> 1.0 * Colors.brightness(c),
-                    previousCanvas.width,
-                    previousCanvas.height,
-                    1
-            );
-            System.out.println("Generated!");
-        }
-
         canvas.loadPixels();
         for(int x = 0; x < Math.min(canvas.width, field.getWidth()); x++) for(int y = 0; y < Math.min(canvas.height, field.getHeight()); y++) {
             ReadVector v = field.get(x, y);
@@ -250,44 +294,13 @@ public class FlowFieldGrowthSketch implements Sketch {
             canvas.pixels[x + y * canvas.width] =  Colors.HSB_SPACE.getRGB(hue, sat, bri);
         }
         canvas.updatePixels();
-
-        stage = stage.next();
     }
 
-    private ParticleSimulation particleSimulation = null;
-    private ParticleSimulationDrawer particleSimulationDrawer = null;
-
     private void renderParticles(PGraphics canvas) {
-        if(particleSimulation == null) {
-            long lifeTime = 2 * 1000;
-            particleSimulation = new ParticleSimulation(
-                    field,
-                    () -> new Particle(hp.get()),
-                    10000,
-                    lifeTime,
-                    0.03,
-                    0.7
-            );
-            particleSimulationDrawer = new ParticleSimulationDrawer(
-                    particleSimulation,
-                    (c, p, l) -> {
-                        double time = 1.0 - (double)l / lifeTime;
-                        double bri = 0.5 * p.getVel().length();
-
-                        c.strokeWeight(1);
-                        c.stroke((float)(255.0 * bri), (float) (50 * time));
-                        c.line((float)p.getPreviousPosition().getX(), (float)p.getPreviousPosition().getY(), (float)p.getX(), (float)p.getY());
-                    },
-                    bounds
-            );
-            canvas.background(0);
-        }
-
-        //canvas.background(0);
         canvas.strokeWeight(2);
-
         particleSimulationDrawer.draw(canvas);
         particleSimulation.update();
+        drawBackground = false;
     }
 
     @Override

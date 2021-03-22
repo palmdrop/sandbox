@@ -41,6 +41,11 @@ public class MathUtils {
     private MathUtils() {
     }
 
+    public static double random(double[] minMax) {
+        if(minMax.length != 2) throw new IllegalArgumentException();
+        return random(minMax[0], minMax[1]);
+    }
+
     public static double random(double min,  double max) {
         return random(min, max, random);
     }

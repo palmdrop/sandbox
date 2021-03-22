@@ -75,13 +75,19 @@ public class ChaoticOrganicMain extends PApplet {
 
     public void keyPressed() {
         switch(key) {
-            case 'r': reset(); break;
+            //case 'r': reset(); break;
             case 's': {
                 canvas.save("output/growth/" + System.nanoTime() + ".png");
                 System.out.println("Saved!");
+                break;
             }
             case 'n': {
-                sketch.nextStage();
+                sketch.progress();
+                break;
+            }
+            case 'r': {
+                sketch.generateCurrent();
+                break;
             }
         }
     }
