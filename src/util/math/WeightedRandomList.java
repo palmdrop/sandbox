@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeightedRandomList<T> {
-    private final double[] map;
-    private double[] searchMap;
+    private final double[] weights;
+    private final double[] weightSums;
     private boolean useSearch = false;
 
     private final int length;
     private double sum;
 
-    private List<T> data;
+    private final List<T> data;
 
     public WeightedRandomList(int length) {
         this.length = length;
 
-        this.map = new double[length];
-        this.searchMap = new double[length];
+        this.weights = new double[length];
+        this.weightSums = new double[length];
 
         data = new ArrayList<>(length);
         for(int i = 0; i < length; i++) {
@@ -34,8 +34,8 @@ public class WeightedRandomList<T> {
 
     public double setWeight(int index, double v) {
         useSearch = false; // Now invalid
-        double prev = map[index];
-        map[index] = v;
+        double prev = weights[index];
+        weights[index] = v;
 
         sum += v - prev;
 
@@ -44,7 +44,7 @@ public class WeightedRandomList<T> {
 
 
     public double getWeight(int index) {
-        return map[index];
+        return weights[index];
     }
 
     public int getRandomIndex() {
@@ -52,18 +52,16 @@ public class WeightedRandomList<T> {
 
         if(!useSearch) {
             int position = 0;
-            for (int i = 0; i < map.length; i++) {
-                if (r - map[i] <= 0) {
+            for (int i = 0; i < weights.length; i++) {
+                r -= weights[i];
+                if (r <= 0) {
                     position = i;
                     break;
                 }
-                r -= map[i];
             }
             return position;
-                    //getPoint(position);
         } else {
             return binarySearch(r);
-            //getPoint(binarySearch(r));
         }
     }
 
@@ -73,7 +71,7 @@ public class WeightedRandomList<T> {
 
         while(min != max) {
             int middle = (max + min) / 2;
-            double v = searchMap[middle];
+            double v = weightSums[middle];
             if(v > r) {
                 max = middle;
             } else if(v < r) {
@@ -89,15 +87,15 @@ public class WeightedRandomList<T> {
     public void calculateSearchMap() {
         double sum = 0.0;
         for(int i = 0; i < length; i++) {
-            sum += map[i];
-            searchMap[i] = sum;
+            sum += weights[i];
+            weightSums[i] = sum;
         }
         useSearch = true; // Now valid
     }
 
     public void normalize() {
-        for(int i = 0; i < map.length; i++) {
-            map[i] /= sum;
+        for(int i = 0; i < weights.length; i++) {
+            weights[i] /= sum;
         }
         this.sum = 1.0;
     }
